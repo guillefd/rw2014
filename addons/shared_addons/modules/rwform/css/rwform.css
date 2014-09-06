@@ -1,0 +1,30 @@
+/*.form-signin input[type="text"], .form-signin input[type="password"] {
+    font-size: 16px;
+    height: auto;
+    margin-top: 23px;
+    margin-bottom: 23px;
+    margin-right: 5px;
+    padding: 10px 9px;
+}*/
+
+.rwform{
+	margin: 0 0 5px;
+}
+
+.rwform.required{
+	border-color: #94aff4;
+	background-color: #dee6fb; 
+}
+
+#rwform_alertbar{
+    width:80%;
+    min-width:200px;
+    font-size: 0.8em;
+}
+
+.captcha-text{
+    color: yellow;
+    font-style: italic;
+    font-weight: bold;  
+}
+
