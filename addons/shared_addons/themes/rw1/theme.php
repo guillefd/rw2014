@@ -7,7 +7,7 @@ class Theme_Rw1 extends Theme
     public $author_website	= 'http://www.rewrite.com.ar';
     public $website			= 'http://www.rewrite.com.ar';
     public $description		= 'Boostrap theme';
-    public $version			= '1.0.3';
+    public $version			= '1.0.0';
 	public $options 		= array(
 		// 'background' => array(
 		// 	'title'         => 'Background',

@@ -2211,6 +2211,10 @@ footer .footer-content p{
 		width:70% !important;
 	}
 
+	.features .info_container{
+		padding: 0 !important;
+	}
+
 	/* CTA */
 
 	.cta .cta-item {
@@ -2389,7 +2393,7 @@ header .container, header .col-md-4, header .col-sm-4{
 }
 
 .mattblackmenu ul li:nth-child(4) a:hover, .mattblackmenu ul li:nth-child(1) a:active{
-	color:rgba(83, 135, 255, 1);
+	color:#f2f2f2;
 	opacity: 0.75;
 }
 
@@ -2398,6 +2402,7 @@ header .container, header .col-md-4, header .col-sm-4{
 /*Carrousel*/
 .banner-container{
 	background: url("../img/banner_bg.jpg") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+	background-position: center;
 }
 
 .item{
@@ -2481,6 +2486,23 @@ header .container, header .col-md-4, header .col-sm-4{
   }
 
   .dis_web_skin h1{
+  	border-bottom: 1px solid #06C149;
+  	text-indent: 15px;
+  }
+
+  .dev_web_skin .sprite{
+	background-position: 0 -291px;
+	height: 90px;
+	text-indent: 20px;
+	width: 112px;
+  }
+
+  .dev_web_skin i{
+  	color:#06C149;
+  	font-style: normal;
+  }
+
+  .dev_web_skin h1{
   	border-bottom: 1px solid #06C149;
   	text-indent: 15px;
   }
@@ -2791,7 +2813,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#3f4579', end
 .servicios .panel-body{
 	line-height: 22px;
 	font-size: 18px;
-	padding: 10px;
+	padding: 15px;
 }
 
 .servicios .panel-heading{
@@ -2915,7 +2937,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#3f4579', end
 	cursor:pointer;
 }
 
-.contact-us .g_plus, .contact-us .facebook, .contact-us .behance{
+.contact-us .g_plus, .contact-us .facebook, .contact-us .behance, .contact-us .twitter{
 	display: block;
 	height: 29px;
 	margin-left: 5px;
@@ -2932,6 +2954,10 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#3f4579', end
 
 .contact-us .behance{
 	background-position: -422px -86px;
+}
+
+.contact-us .twitter{
+	background-position: -422px -128px;
 }
 
 .contact-us .info_container{
@@ -2951,7 +2977,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#3f4579', end
 }
 
 .contact-us .form-group textarea{
-/*	min-width: 746px;*/
+	min-width: 746px;
 	max-width: 746px;
 	min-height: 75px;
 	max-height: 75px;
