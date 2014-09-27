@@ -10,6 +10,7 @@ $lang['rwhtmlparser:createsource'] = 			"New source target";
 $lang['rwhtmlparser:uri'] = 					"URL";
 $lang['rwhtmlparser:sourcetype'] = 				"Source type";
 $lang['rwhtmlparser:htmlelement'] = 			"Html element target";
+$lang['rwhtmlparser:htmlelementparam'] =		"Html element param target";
 
 
 // messages

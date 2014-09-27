@@ -24,6 +24,8 @@ class Admin extends Admin_Controller
         // set CFG
         $this->config->load('rwhtmlparser', true);
         $this->CFG = $this->config->item('rwhtmlparser');
+        // load assets
+        $this->set_common_template_metadata();
 
         // FULL DEBUG ##########################
         if(ENVIRONMENT == PYRO_DEVELOPMENT) $this->set_full_dump();
@@ -75,17 +77,26 @@ class Admin extends Admin_Controller
         $this->parser = new stdClass();
         $this->parser->sourcetype = $this->postvalues['sourcetype'];
         $this->parser->uri = $this->postvalues['uri'];
-        $this->parser->htmlelement = $this->postvalues['htmlelement'];       
+        $this->parser->htmlelement = $this->postvalues['htmlelement'];
+        $this->parser->htmlelementparam = $this->postvalues['htmlelementparam'];       
     }
 
 
     private function run_parser()
     {
+        set_time_limit(600);
         switch($this->parser->sourcetype)
         {
             case 'webpage':
-                            $this->shd->set_target($this->parser->uri);                            
-                            $this->parser->result['nodes'] = $this->shd->htmldom->find($this->parser->htmlelement);
+                            $this->shd->set_target($this->parser->uri);
+                            if($this->parser->htmlelementparam)
+                            {
+                                $this->parser->result['nodes'] = $this->shd->htmldom->find($this->parser->htmlelement, $this->parser->htmlelementparam);
+                            }   
+                            else
+                                {
+                                    $this->parser->result['nodes'] = $this->shd->htmldom->find($this->parser->htmlelement);
+                                }                         
                             break;
 
             default:
@@ -94,9 +105,16 @@ class Admin extends Admin_Controller
         }
     }    
 
-    //////////
-    // AUX  //
-    //////////
+    //////////////////////////
+    // AUX --------------// //
+    //////////////////////////
+
+    private function set_common_template_metadata()
+    {
+        // common assets
+        $this->template->append_metadata('<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">');
+        Asset::css('module::admin_rwhtmlparser.css');
+    }
 
     private function set_postvalues()
     {

@@ -20,6 +20,8 @@
 					<li>
 						<label for="title"><?php echo lang('rwhtmlparser:htmlelement') ?> <span></span></label>
 						<div class="input"><?php echo form_input('htmlelement', $postvalues['htmlelement'], '') ?></div>
+						<label for="title"><?php echo lang('rwhtmlparser:htmlelementparam') ?> <span></span></label>
+						<div class="input"><?php echo form_input('htmlelementparam', $postvalues['htmlelementparam'], '') ?></div>
 					</li>					
 					<li>
 						<div class="input"><button type="submit" class="btn blue">Run parser</button></div>
@@ -31,85 +33,116 @@
 	</div>
 
 	<div class="content">
-		<table>			
 		<?php if(isset($parser->result)): ?>	
-			<tr>
-				<td colspan="2"><h4>Nodes found for element: <b><?php echo $postvalues['htmlelement']; ?></b></h4></td>
-				<td colspan="2"><h4>Map capture</h4></td>
-			</tr>			
+		<h4>Nodes found for element: <b><?php echo $postvalues['htmlelement']; ?></b></h4>
+		<div class="margin-bottom-10"></div>				
+			<?php 
+					//init
+					$nodeIndex = 0;
+					$childNodeIndex = 0; 
+			?>
+
 			<?php foreach($parser->result['nodes'] as $node): ?>
-				<!-- NODE -->
-				<?php foreach($node->children as $child): ?>	
-					<tr>
-						<td width="35%">
-							<table>
-								<tr>
-									<th><small>tag</small></th>
-									<th><?php echo $child->tag; ?></th>
-								</tr>
-								<tr>
-									<td><small>plaintext</small></td>
-									<td>	
-										<?php echo $child->plaintext!='' ? $child->plaintext : '<small>%empty%</small>'; ?>
-									</td>
-								</tr>
-								<tr>
-									<td><small>innertext</small></td>
-									<td>
-										<?php echo htmlentities(substring($child->innertext)); ?>
-									</td>
-								</tr>
-								<tr>
-									<td><small>children</small></td>
-									<td>		
-										<table>
-											<?php if(count($child->children)>0): ?>
-												<!-- CHILD NODES -->
-												<?php foreach($child->children as $child1): ?>
-											<tr>
-												<td><small>tag</small></td>
-												<td><?php echo $child1->tag; ?></td>
-											</tr>
-											<tr>	
-												<td><small>plaintext</small></td>
-												<td><?php echo $child1->plaintext; ?></td>
-											</tr>
-											<tr>
-												<td><small>attr</small></td>
-												<td>
-													<table>
-													<!-- CHILD attributes -->
-													<?php if(count($child1->attr)>0): ?>
-														<?php foreach($child1->attr as $attr=>$value): ?>
-														<tr>
-															<td><small><?php echo $attr; ?></small></td>
-															<td><?php echo substring($value); ?></td>
-														</tr>
-														<?php endforeach; ?>
-													<?php endif; ?>
-													<!-- end CHILD attributes -->
-													</table>
-												</td>
-											</tr>		 
-												<?php endforeach; ?>
-											<?php else: ?>
-												<tr><td><small>%empty child%</small></td></tr>	
-												<!-- CHILD NODES -->
-											<?php endif; ?>
-										</table>
-									</td>		
-								</tr>
-							</table>
-						</td>
-						<td widht="10%"></td>
-						<td></td>
-					</tr>
+				<?php foreach($node->children as $child): ?>
+					<?php $selector = $postvalues['htmlelement']; ?>
+					<?php $nodeIndex++; ?>	
+					<table>
+						<tr class="modetitle">
+							<td colspan="3">---- Node ----</td>
+							<td colspan="2"></td>
+						</tr>
+						<tr class="nodetitle">
+							<th width="15%">tag</th>
+							<th>plaintText</th>
+							<th>innertext</th>
+							<th></th>
+							<th></th>							
+						</tr>
+						<tr class="nodecontent">
+							<!-- Nodes -->
+							<td>
+								<?php echo $child->tag; ?>
+								<?php foreach($child->attr as $attr=>$value): ?>
+										<p><?php echo $attr; ?>="<?php echo $value; ?>"</p>
+								<?php endforeach; ?>
+							</td>
+							<td><?php echo $child->plaintext!='' ? $child->plaintext : '<small>%empty%</small>'; ?></td>
+							<td><?php echo htmlentities(substring($child->innertext)); ?></td>
+							<!-- end Nodes -->
+
+							<!-- Selector -->
+							<?php $selector.= ' '.$child->tag; ?>
+							<td>
+								<label>Selector</label><br>
+								<input type="text" name="" value="<?php echo $selector; ?>"> 
+							</td>
+							<!-- end selector -->
+
+							<!-- map -->
+							<td>
+
+							</td>
+							<!-- end map -->
+						</tr>
+						<tr class="children">
+							<td colspan="3">---- Children Node ----</td>
+							<td colspan="2"></td>
+						</tr>	
+						<?php if(count($child->children)>0): ?>
+						<tr class="childtitle1">
+							<th>tag</th>
+							<th>plaintText</th>
+							<th>attr</th>
+							<th></th>
+							<th></th>
+						</tr>	
+						<!-- CHILD NODES -->
+							<?php foreach($child->children as $child1): ?>
+							<tr class="childcontent1">
+								<td><?php echo $child1->tag; ?></td>
+								<td><?php echo $child1->plaintext; ?></td>
+								<td>
+								<?php if(count($child1->attr)>0): ?>
+									<?php foreach($child1->attr as $attr=>$value): ?>
+										<p class="child2attr"><?php echo $attr; ?>="<?php echo substring($value); ?>"</p>
+									<?php endforeach; ?>
+								<?php endif; ?>
+								<!-- end CHILD attributes -->
+								</td>
+								<!-- Selector -->
+								<td>
+									<label>Selector</label><br>
+									<input type="text" name="" value="<?php echo $selector.' '.$child1->tag; ?>"> 
+								</td>
+								<!-- end selector -->
+
+								<!-- map -->
+								<td>
+
+								</td>
+								<!-- end map -->
+							</tr>		 
+							<?php endforeach; ?>
+						<?php else: ?>
+							<tr class="childtitle1">
+								<th colspan="3"><small>%empty child%</small></th>
+								<th colspan="2"></th>
+							</tr>	
+							<!-- end CHILD NODES -->
+						<?php endif; ?>
+							<!-- end nodes -->			
+						</table>
+					<div class="margin-bottom-20"></div>	
 				<?php endforeach; ?>
+				<?php
+						// re init 
+						$nodeIndex = 0;
+						$childNodeIndex = 0; 
+				?>						
 				<!-- end NODE -->	
 			<?php endforeach; ?>
 		<?php else: ?>
-			<tr><td><?php echo lang('rwhtmlparser:parser_result_empty'); ?></td></tr>
+			<h4><?php echo lang('rwhtmlparser:parser_result_empty'); ?></h4>
 		<?php endif; ?>			
-		</table>
 	</div>
 </section>

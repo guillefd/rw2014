@@ -21,6 +21,11 @@ $config['createsource_form_rules'] = array(
 								                    'label'=>'lang:rwhtmlparser:htmlelement', 
 								                    'rules'=>'required',
 								                  ),
+											array(
+								                    'field'=>'htmlelementparam', 
+								                    'label'=>'lang:rwhtmlparser:htmlelementparam', 
+								                    'rules'=>'',
+								                  ),
 											);
 
 $config['content_blocks'] = array(

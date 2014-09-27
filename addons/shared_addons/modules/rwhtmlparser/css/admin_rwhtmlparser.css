@@ -1,0 +1,56 @@
+
+.margin-bottom-10{
+	margin-bottom:10px;
+}
+
+.margin-bottom-20{
+	margin-bottom:20px;
+}
+
+.margin-bottom-30{
+	margin-bottom:30px;
+}
+
+.margin-bottom-40{
+	margin-bottom:40px;
+}
+
+
+table td{
+	word-wrap: break-word;	
+}
+
+table{
+	table-layout: fixed; 
+	width: 100%;
+}
+
+table th{
+	text-align: center !important;
+	color: #999;
+}
+
+table tr.nodetitle th{
+	background:#bbcef5 !important; 
+}
+
+table tr.nodecontent td{
+	text-align:center !important;
+	background:#e5e5e5 !important;
+}
+
+table tr.children td{
+	font-weight: bold; 
+	background:#dbdbdb !important;
+	color: #999;
+}
+
+table tr.childtitle1 th{
+	background:#a0bbf2 !important;
+	text-align: center !important;
+}
+
+table tr.childcontent1 td{
+	background:#c6c6c6 !important;
+	text-align: center !important;
+}
