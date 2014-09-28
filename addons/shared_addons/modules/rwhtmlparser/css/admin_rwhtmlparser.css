@@ -31,7 +31,13 @@ table th{
 }
 
 table tr.nodetitle th{
-	background:#bbcef5 !important; 
+	background:#5080e6 !important; 
+	color:#ededed;
+}
+
+table tr.nodetitle td{
+	background:#1a50c0 !important;
+	color: #fff; 
 }
 
 table tr.nodecontent td{
@@ -39,18 +45,37 @@ table tr.nodecontent td{
 	background:#e5e5e5 !important;
 }
 
-table tr.children td{
-	font-weight: bold; 
-	background:#dbdbdb !important;
-	color: #999;
+
+table tr.childrentitle1 th{
+	background:#b2c7f4 !important;
+	text-align: center !important;
+	color: #777;
 }
 
-table tr.childtitle1 th{
-	background:#a0bbf2 !important;
+table tr.childrentitle1 td{
+	font-weight: bold; 
+	background:#6b94ea !important;
+	color: #ededed;
+}
+
+table tr.childrencontent1 td{
+	background:#d1d1d1 !important;
 	text-align: center !important;
 }
 
-table tr.childcontent1 td{
-	background:#c6c6c6 !important;
+table tr.childrentitle2 th{
+	background:#cddbf8 !important;
+	text-align: center !important;
+	color: #999;
+}
+
+table tr.childrentitle2 td{
+	font-weight: bold; 
+	background:#86a7ee !important;
+	color: #fff;
+}
+
+table tr.childrencontent2 td{
+	background:#bcbcbc !important;
 	text-align: center !important;
 }

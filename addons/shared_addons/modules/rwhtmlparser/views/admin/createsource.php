@@ -43,31 +43,67 @@
 			?>
 
 			<?php foreach($parser->result['nodes'] as $node): ?>
+				<?php $selector = $postvalues['htmlelement']; ?>			
+				<table>
+				<tr class="nodetitle">
+					<td colspan="3">---- Node ----</td>
+					<td colspan="2"></td>
+				</tr>
+				<tr class="nodetitle">
+					<th width="15%">tag</th>
+					<th>plainText</th>
+					<th>innerText</th>
+					<th></th>
+					<th></th>							
+				</tr>
+				<tr class="nodecontent">
+					<!-- Nodes -->
+					<td>
+						<?php echo $node->tag; ?>
+						<?php foreach($node->attr as $attr=>$value): ?>
+								<p><?php echo $attr; ?>="<?php echo $value; ?>"</p>
+						<?php endforeach; ?>
+					</td>
+					<td><?php echo $node->plaintext!='' ? substring($node->plaintext, 800) : '<small>%empty plaintext%</small>'; ?></td>
+					<td><?php echo htmlspecialchars(substring($node->innertext)); ?></td>
+					<!-- end Nodes -->
+
+					<!-- Selector -->
+					<td>
+						<label>Selector</label><br>
+						<input type="text" name="" value="<?php echo $selector; ?>"> 
+					</td>
+					<!-- end selector -->
+
+					<!-- map -->
+					<td>
+
+					</td>
+					<!-- end map -->
+				</tr>
 				<?php foreach($node->children as $child): ?>
-					<?php $selector = $postvalues['htmlelement']; ?>
 					<?php $nodeIndex++; ?>	
-					<table>
-						<tr class="modetitle">
-							<td colspan="3">---- Node ----</td>
-							<td colspan="2"></td>
+						<tr class="childrentitle1">
+							<td colspan="3"> ---- Child1 Node ---- </td>
+							<td colspan="2"> </td> 
 						</tr>
-						<tr class="nodetitle">
+						<tr class="childrentitle1">
 							<th width="15%">tag</th>
-							<th>plaintText</th>
-							<th>innertext</th>
+							<th>plainText</th>
+							<th>innerText</th>
 							<th></th>
 							<th></th>							
 						</tr>
-						<tr class="nodecontent">
+						<tr class="childrencontent1">
 							<!-- Nodes -->
 							<td>
 								<?php echo $child->tag; ?>
 								<?php foreach($child->attr as $attr=>$value): ?>
-										<p><?php echo $attr; ?>="<?php echo $value; ?>"</p>
+										<p><?php echo htmlspecialchars($attr); ?><?php echo htmlspecialchars($value); ?></p>
 								<?php endforeach; ?>
 							</td>
-							<td><?php echo $child->plaintext!='' ? $child->plaintext : '<small>%empty%</small>'; ?></td>
-							<td><?php echo htmlentities(substring($child->innertext)); ?></td>
+							<td><?php echo $child->plaintext!='' ? $child->plaintext : '<small>%empty children1%</small>'; ?></td>
+							<td><?php echo htmlspecialchars(substring($child->innertext)); ?></td>
 							<!-- end Nodes -->
 
 							<!-- Selector -->
@@ -84,12 +120,12 @@
 							</td>
 							<!-- end map -->
 						</tr>
-						<tr class="children">
-							<td colspan="3">---- Children Node ----</td>
+						<tr class="childrentitle2">
+							<td colspan="3">---- Child2 Node ----</td>
 							<td colspan="2"></td>
 						</tr>	
 						<?php if(count($child->children)>0): ?>
-						<tr class="childtitle1">
+						<tr class="childrentitle2">
 							<th>tag</th>
 							<th>plaintText</th>
 							<th>attr</th>
@@ -98,16 +134,17 @@
 						</tr>	
 						<!-- CHILD NODES -->
 							<?php foreach($child->children as $child1): ?>
-							<tr class="childcontent1">
+							<tr class="childrencontent2">
 								<td><?php echo $child1->tag; ?></td>
 								<td><?php echo $child1->plaintext; ?></td>
 								<td>
+								<!-- attributes -->
 								<?php if(count($child1->attr)>0): ?>
 									<?php foreach($child1->attr as $attr=>$value): ?>
-										<p class="child2attr"><?php echo $attr; ?>="<?php echo substring($value); ?>"</p>
+										<p class="childrenattr"><?php echo $attr; ?>="<?php echo htmlentities(substring($value)); ?>"</p>
 									<?php endforeach; ?>
 								<?php endif; ?>
-								<!-- end CHILD attributes -->
+								<!-- end attributes -->
 								</td>
 								<!-- Selector -->
 								<td>
@@ -124,15 +161,16 @@
 							</tr>		 
 							<?php endforeach; ?>
 						<?php else: ?>
-							<tr class="childtitle1">
-								<th colspan="3"><small>%empty child%</small></th>
+							<tr class="childrentitle2">
+								<th colspan="3"><small>%empty children2%</small></th>
 								<th colspan="2"></th>
 							</tr>	
 							<!-- end CHILD NODES -->
 						<?php endif; ?>
 							<!-- end nodes -->			
-						</table>
-					<div class="margin-bottom-20"></div>	
+						<tr>
+							<td colspan="5"></td>
+						</tr>	
 				<?php endforeach; ?>
 				<?php
 						// re init 
@@ -140,6 +178,7 @@
 						$childNodeIndex = 0; 
 				?>						
 				<!-- end NODE -->	
+				</table>				
 			<?php endforeach; ?>
 		<?php else: ?>
 			<h4><?php echo lang('rwhtmlparser:parser_result_empty'); ?></h4>
