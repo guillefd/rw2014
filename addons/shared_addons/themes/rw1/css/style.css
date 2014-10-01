@@ -76,7 +76,7 @@ hr{
 }
 
 .green{
-	color:rgba(6, 193, 73, 0.7);
+	color:#38d807;
 }
 
 .lblue{
@@ -3093,14 +3093,17 @@ footer.info_container{
 
 @media (max-width: 767px){
 
+	.br-lblue.block{
+		background: #010646;
+	}
+
 	.mattblackmenu ul li a{
 		padding-left: 10px;
 		padding-right: 10px;
 	}
 
 	.banner-container{
-		background-size: cover;
-		background-position: center;
+		background-image:none;
 	}
 
 	
@@ -3182,6 +3185,15 @@ footer.info_container{
 }
 
 @media (max-width: 480px){
+
+	.banner-container{
+		background-image:none;
+	}
+
+	.br-lblue.block{
+		background: #010646;
+	}
+
 	.navis select{
 		width:75%;
 		margin-left: 40px;
