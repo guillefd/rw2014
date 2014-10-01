@@ -84,7 +84,7 @@ hr{
 }
 
 .blue{
-	color:#609cee;
+	color:#33ccff;
 }
 
 .brown{
@@ -146,7 +146,7 @@ hr{
 }
 
 .br-orange{
-	background:rgba(247, 162, 83, 0.35);
+	background:rgba(255, 255, 255, 0.25);
 }
 
 .br-yellow{
@@ -358,6 +358,10 @@ header .logo h1 a i{
 .mattblackmenu li{
 	text-align:center;
 }
+
+	.mattblackmenu ul li:nth-child(3){
+		display: none;
+	}
 
 .mattblackmenu li a{
 	float: none;
@@ -2167,7 +2171,7 @@ footer .footer-content p{
 	/* Header */
 	
 	header{
-		height:90px;
+		height:50px;
 	}
 
 	header .logo{
@@ -2195,6 +2199,9 @@ footer .footer-content p{
 	.navis select { 
 		display:inline-block; 
 		width:100%;
+		height: 30px;
+		background: rgba(255, 255, 255, 0.7);
+		color:#fff;
 	}
 	
 	/* Features */
@@ -2303,6 +2310,8 @@ footer .footer-content p{
 	
 	.navis{
 		margin:0px auto;
+		margin-top: -15px;
+		float:right;
 	}
 	
 	/* Features */
@@ -2333,6 +2342,7 @@ footer .footer-content p{
 
 a {
    outline: 0;
+   border-bottom: none;
 }
 
 a::-moz-focus-inner { 
@@ -2342,6 +2352,10 @@ a::-moz-focus-inner {
 .top a{
 	background-color: rgba(255, 255, 255, 0.1);
 	border-top-left-radius: 4px !important;
+}
+
+p a{
+	outline:none;
 }
 
 /*header----------------------------------------------------------------------------------------------------------------------*/
@@ -2377,32 +2391,45 @@ header .container, header .col-md-4, header .col-sm-4{
    -webkit-transition: opacity .20s ease-in-out;
 }
 
-.mattblackmenu ul li:nth-child(1) a:hover, .mattblackmenu ul li:nth-child(1) a:active{
+.mattblackmenu ul li:nth-child(1) a:hover, .mattblackmenu ul li:nth-child(1) a.active{
 	color:#33ccff;
 	opacity: 0.75;
 }
 
-.mattblackmenu ul li:nth-child(2) a:hover, .mattblackmenu ul li:nth-child(1) a:active{
+.mattblackmenu ul li:nth-child(2) a:hover, .mattblackmenu ul li:nth-child(2) a.active{
 	color:rgba(247, 83, 83, 1);
 	opacity: 0.85;
 }
 
-.mattblackmenu ul li:nth-child(3) a:hover, .mattblackmenu ul li:nth-child(1) a:active{
+.mattblackmenu ul li:nth-child(3) a:hover, .mattblackmenu ul li:nth-child(3) a.active{
 	color:#06c149;
 	opacity: 0.75;
 }
 
-.mattblackmenu ul li:nth-child(4) a:hover, .mattblackmenu ul li:nth-child(1) a:active{
+.mattblackmenu ul li:nth-child(4) a:hover, .mattblackmenu ul li:nth-child(4) a.active{
 	color:#f2f2f2;
 	opacity: 0.75;
+}
+
+.navbar_rw ul li .active {
+	background: rgba(41, 95, 146, 0.9);
+	padding: 5px;
+	border-radius: 4px;
+	cursor: default;
 }
 
 /*Inicio--------------------------------------------------------------------------------------------------------------------*/
 
 /*Carrousel*/
+
+
 .banner-container{
 	background: url("../img/banner_bg.jpg") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
-	background-position: center;
+	background-size: 100%;
+}
+
+.carousel{
+	height: 550px;
 }
 
 .item{
@@ -2439,6 +2466,11 @@ header .container, header .col-md-4, header .col-sm-4{
   	display: block;
   }
 
+  .banner_content.mood_skin{
+  	min-width:758px;
+ 	max-width:758px;
+  }
+
   .wordp_skin h1{
   	border-bottom: 1px solid #33ccff;
   	text-indent: 20px;
@@ -2446,7 +2478,6 @@ header .container, header .col-md-4, header .col-sm-4{
 
   .mood_skin h1{
   	border-bottom: 1px solid #cc0000;
-  	text-indent: -56px;
   }
 
   .mood_skin i{
@@ -2829,6 +2860,15 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#3f4579', end
 	background-color: rgba(204, 0, 0, 0.4);
 }
 
+.wordpress .panel-heading{
+	background-color: rgba(51, 204, 255, 0.5);
+	padding: 0;
+}
+
+.wordpress .panel-body{
+	background-color: rgba(1, 204, 255, 0.3);
+}
+
  .servicios h2{
  	padding-top: 15px;
  	padding-bottom: 15px;
@@ -2851,6 +2891,18 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#3f4579', end
 	padding-left:10px; 
 }
 
+.wp p a{
+	color:#33ccff;
+}
+
+.wp p a:hover{
+	opacity: 70% !important;
+}
+
+.panel-group .panel-heading+.panel-collapse .panel-body{
+	border-color:#003333 !important;
+}
+
 
 /*---Tabla-----------------------------------------------------------------------------------------------------------------------*/
 
@@ -2864,6 +2916,20 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#3f4579', end
 .table-bordered > thead > tr > th, .table-bordered > tbody > tr > th, .table-bordered > tfoot > tr > th, .table-bordered > thead > tr > td, .table-bordered > tbody > tr > td, .table-bordered > tfoot > tr > td{
 	border-radius: 4px !important;
 	border: none;
+}
+
+.pricing.wordpress .table tr th, .pricing.moodle .table tr:nth-child(12){
+	background-color: rgba(51, 204, 255, 0.7);
+	font-weight: 500;
+	border-radius: 4px !important;
+}
+
+.pricing.wordpress .table tr th:first-child, .pricing.moodle .table tr:nth-child(11){
+	background-color: rgba(51, 204, 255, 0.4);
+}
+
+.pricing.wordpress .table tr:nth-child(12){
+	background-color: rgba(51, 204, 255, 0.7);
 }
 
 .pricing.moodle .table tr th, .pricing.moodle .table tr:nth-child(12){
@@ -2921,7 +2987,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#3f4579', end
 .table.table-bordered p{
 	margin-top: 24px;
 	margin-left: 0 !important;
-	font-size: 18px !important;
+	font-size: 16px !important;
 }
 
 /*-- Pre Footer ------------------------------------------------------------------------------------------------------------------*/
@@ -3016,3 +3082,135 @@ footer p{
 	font-size: 18px;
 	margin-top: 10px;
 }
+
+footer.info_container{
+	margin-bottom: 40px;
+}
+
+/*--- Mediaquery--------------------------------------------------------------------------------------------------------------------*/
+
+
+
+@media (max-width: 767px){
+
+	.mattblackmenu ul li a{
+		padding-left: 10px;
+		padding-right: 10px;
+	}
+
+	.banner-container{
+		background-size: cover;
+		background-position: center;
+	}
+
+	
+	.banner_content.dis_web_skin, .banner_content.dev_web_skin, .banner_content.dev_web_skin, .banner_content.wordp_skin, .banner_content.mood_skin{
+		max-width: 300px;
+		min-width: 300px;
+	}
+
+	.banner_content h1{
+		font-size: 45px;
+		text-align: center;
+	}
+
+	.banner_content p{
+		text-align: center;
+		font-size: 16px;
+		text-indent: 0;
+	}
+
+	.carousel {
+		height: 325px;
+	}
+
+	.mood_skin .sprite, .dis_web_skin .sprite, .dev_web_skin .sprite, .wordp_skin .sprite{
+		display: none;
+	}
+
+	.btn{
+		width: 91%;
+		margin-top: 5px;
+		border-radius: 2px !important;
+	}
+
+	.info_container{
+		width:290px;
+		margin-top: 0;
+	}
+
+	.br-black.block{
+		padding-top: 15px;
+	}
+
+	.br-lblue.block{
+		padding-top: 20px;
+	}
+
+	.page-title.text-center h2{
+		font-size:25.9px;
+	}
+
+	.page-title.text-center h3, .page-title.text-center h3 strong{
+		font-size: 19px;
+	}
+
+	.page-title.text-center h4{
+		font-size: 21px;
+	}
+
+	.pricing .table th{
+		font-size: 18px;
+	}
+
+	.pricing.design .table-responsive{
+		overflow: hidden;
+	}
+
+	.table-responsive>.table>thead>tr>th, .table-responsive>.table>tbody>tr>th, .table-responsive>.table>tfoot>tr>th, .table-responsive>.table>thead>tr>td, .table-responsive>.table>tbody>tr>td, .table-responsive>.table>tfoot>tr>td{
+		white-space: normal;
+		font-size: 18px;
+		padding-right: 0;
+	}
+
+	.table.table-bordered .orange{
+	font-size:16px !important;
+	}
+	.pricing .table th; .pricing .table p{
+		font-size: 16px !important;
+	}
+}
+
+@media (max-width: 480px){
+	.navis select{
+		width:75%;
+		margin-left: 40px;
+	}
+
+	.banner_content{
+		margin-top: 12%;
+	}
+
+	.banner_content h1{
+		font-size: 35px;
+	}
+
+	.banner_content.dis_web_skin, .banner_content.dev_web_skin, .banner_content.dev_web_skin, .banner_content.wordp_skin, .banner_content.mood_skin {
+		max-width: 220px;
+		min-width: 220px;
+	}
+
+	footer .container{
+		width:100%;
+		margin:0;
+	}
+
+	footer p {
+		font-size: 16px;
+		margin-top: 6px;
+	}
+
+	.contact-us .form-group textarea {
+		min-width: 260px;
+		max-width: 250px;
+	}

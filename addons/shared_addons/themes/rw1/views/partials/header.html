@@ -1,16 +1,23 @@
 <!-- Header  Starts -->
 
+<?php 
+	function get_a_class($uri)
+	{
+		echo ci()->uri->segment(1)==$uri ? 'active' : ''; 
+	}
+?>
+
 <header>
 	<!-- Container -->
 	<div class="container">
 		<div class="row">
-			<div class="col-md-4 col-sm-4"> 
+			<div class="col-md-2 col-sm-2"> 
 				<!-- Logo -->
 				<div class="logo">
 					<h1><a href="#" class="sprite rewrite_logo"></a></h1>
 				</div>
 			</div>
-			<div class="col-md-8 col-sm-8">
+			<div class="col-md-10 col-sm-10">
 				<!-- Navigation -->
 				<div class="navi">
 					<!-- Menu --> 
@@ -18,11 +25,21 @@
 						<!-- UnorderedList -->
 						<ul>
 							<!-- List -->
-							<li><a href="wordpress-hosting">Hosting Wordpress</a></li>							
-							<li><a href="moodle-hosting-soporte">Hosting Moodle</a></li>							
-							<li><a href="diseno-web">Diseño Web</a></li>	
-							<li><a href="desarrollo-web">Desarrollo Web</a></li>	
-							<li><a href="contactanos">Contacto</a></li>
+							<li>
+								<a class="<?php get_a_class('wordpress-hosting'); ?>" href="wordpress-hosting">Hosting Wordpress</a>
+							</li>							
+							<li>
+								<a class="<?php get_a_class('moodle-hosting-soporte'); ?>" href="moodle-hosting-soporte">Hosting Moodle</a>
+							</li>							
+							<li>
+								<a class="<?php get_a_class('diseno-web'); ?>" href="diseno-web">Diseño Web</a>
+							</li>	
+							<li>
+								<a class="<?php get_a_class('desarrollo-web'); ?>" href="desarrollo-web">Desarrollo Web</a>
+							</li>	
+							<li>
+								<a class="<?php get_a_class('contactanos'); ?>" href="contactanos">Contacto</a>
+							</li>
 						</ul>
 					</div>
 				</div>
