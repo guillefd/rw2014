@@ -40,11 +40,12 @@
 					//init
 					$nodeIndex = 0;
 					$childNodeIndex = 0; 
+					$nodeslug['topnode'] = $postvalues['htmlelement'];
 			?>
 
 			<?php foreach($parser->result['nodes'] as $node): ?>
 				<?php $selector = $postvalues['htmlelement']; ?>			
-				<table>
+				<table class="createsourceform">
 				<tr class="nodetitle">
 					<td colspan="3">---- Node ----</td>
 					<td colspan="2"></td>
@@ -57,21 +58,26 @@
 					<th></th>							
 				</tr>
 				<tr class="nodecontent">
-					<!-- Nodes -->
+
+					<!-- ################ MAIN Node -->
 					<td>
 						<?php echo $node->tag; ?>
 						<?php foreach($node->attr as $attr=>$value): ?>
-								<p><?php echo $attr; ?>="<?php echo $value; ?>"</p>
+							<p><?php echo $attr; ?>="<?php echo $value; ?>"</p>
 						<?php endforeach; ?>
 					</td>
-					<td><?php echo $node->plaintext!='' ? substring($node->plaintext, 800) : '<small>%empty plaintext%</small>'; ?></td>
-					<td><?php echo htmlspecialchars(substring($node->innertext)); ?></td>
-					<!-- end Nodes -->
+					<td>
+						<?php echo $node->plaintext!='' ? substring($node->plaintext, 800) : '<small>%empty plaintext%</small>'; ?>
+					</td>
+					<td>
+						<?php echo htmlspecialchars(substring($node->innertext)); ?>
+					</td>
+					<!-- ################ end MAIN Node -->
 
 					<!-- Selector -->
 					<td>
 						<label>Selector</label><br>
-						<input type="text" name="" value="<?php echo $selector; ?>"> 
+						<input type="text" name="" value="<?php echo $nodeslug['topnode']; ?>"> 
 					</td>
 					<!-- end selector -->
 
@@ -95,22 +101,29 @@
 							<th></th>							
 						</tr>
 						<tr class="childrencontent1">
-							<!-- Nodes -->
+							<!-- ############## Nodes SUB 1 -->
 							<td>
-								<?php echo $child->tag; ?>
-								<?php foreach($child->attr as $attr=>$value): ?>
+								<?php 
+									echo $child->tag;
+									$nodeslug['childnode'] = $child->tag; 
+								?>
+								<?php foreach($child->attr as $attr=>$value): ?>	
 										<p><?php echo htmlspecialchars($attr); ?><?php echo htmlspecialchars($value); ?></p>
 								<?php endforeach; ?>
 							</td>
-							<td><?php echo $child->plaintext!='' ? $child->plaintext : '<small>%empty children1%</small>'; ?></td>
-							<td><?php echo htmlspecialchars(substring($child->innertext)); ?></td>
-							<!-- end Nodes -->
+							<td>
+								<textarea class="input-form" name=""><?php echo trim($child->plaintext); ?></textarea>
+							</td>
+							<td>
+								<textarea class="input-form" name=""><?php echo htmlspecialchars($child->innertext); ?></textarea>
+							</td>
+							<!-- ############## end Node SUB 1 -->
 
 							<!-- Selector -->
 							<?php $selector.= ' '.$child->tag; ?>
 							<td>
 								<label>Selector</label><br>
-								<input type="text" name="" value="<?php echo $selector; ?>"> 
+								<input type="text" name="" value="<?php echo $nodeslug['topnode'].' '.$nodeslug['childnode']; ?>"> 
 							</td>
 							<!-- end selector -->
 
@@ -132,16 +145,23 @@
 							<th></th>
 							<th></th>
 						</tr>	
-						<!-- CHILD NODES -->
+						<!-- ###################### NODE SUB 2 -->
 							<?php foreach($child->children as $child1): ?>
 							<tr class="childrencontent2">
-								<td><?php echo $child1->tag; ?></td>
-								<td><?php echo $child1->plaintext; ?></td>
+								<td>
+									<?php 
+										echo $child1->tag; 
+										$nodeslug['child1node'] = $child1->tag; 
+									?>
+								</td>
+								<td>
+									<textarea class="input-form" name=""><?php echo $child1->plaintext; ?></textarea>
+								</td>
 								<td>
 								<!-- attributes -->
 								<?php if(count($child1->attr)>0): ?>
 									<?php foreach($child1->attr as $attr=>$value): ?>
-										<p class="childrenattr"><?php echo $attr; ?>="<?php echo htmlentities(substring($value)); ?>"</p>
+									<textarea class="input-form" name=""><?php echo $value; ?></textarea>
 									<?php endforeach; ?>
 								<?php endif; ?>
 								<!-- end attributes -->
@@ -149,7 +169,7 @@
 								<!-- Selector -->
 								<td>
 									<label>Selector</label><br>
-									<input type="text" name="" value="<?php echo $selector.' '.$child1->tag; ?>"> 
+									<input type="text" name="" value="<?php echo $nodeslug['topnode'].' '.$nodeslug['childnode'].' '.$nodeslug['child1node']; ?>"> 
 								</td>
 								<!-- end selector -->
 
@@ -160,12 +180,13 @@
 								<!-- end map -->
 							</tr>		 
 							<?php endforeach; ?>
+							<!-- ###################### end NODE SUB 2 -->
 						<?php else: ?>
 							<tr class="childrentitle2">
 								<th colspan="3"><small>%empty children2%</small></th>
 								<th colspan="2"></th>
 							</tr>	
-							<!-- end CHILD NODES -->
+							<!-- end CHIL -->
 						<?php endif; ?>
 							<!-- end nodes -->			
 						<tr>

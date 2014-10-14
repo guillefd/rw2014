@@ -17,7 +17,7 @@ class Shd
 	public function __construct()
     {
     	// load library
-    	include_once 'simple_html_dom/simple_html_dom.php';
+    	include_once 'Simple_html_dom/simple_html_dom.php';
     	// init
     	$this->set_htmlDom();
     	$this->set_html();

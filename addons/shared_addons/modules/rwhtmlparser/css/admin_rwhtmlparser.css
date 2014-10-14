@@ -79,3 +79,8 @@ table tr.childrencontent2 td{
 	background:#bcbcbc !important;
 	text-align: center !important;
 }
+
+textarea.input-form{
+	width:200px;
+	min-height:50px;
+}
