@@ -61,7 +61,9 @@ class Admin extends Admin_Controller
                              'postvalues'=>$this->postvalues,  
                              'parser'=>$this->parser,
                              ))                      
-                ->build('admin/createsource');          
+                ->build('admin/createsource');  
+        # clean dom        
+        $this->clean_parser();                        
     }
 
  
@@ -103,6 +105,11 @@ class Admin extends Admin_Controller
                             $this->parser->result = null;
                             break;                
         }
+    }
+
+    private function clean_parser()
+    {
+        $this->shd->clean_htmldom();
     }    
 
     //////////////////////////

@@ -92,18 +92,18 @@
 				</tr>
 				<?php foreach($node->children as $child): ?>
 					<?php $nodeSub++; ?>	
-						<tr class="childrentitle2">
-							<td colspan="3"> ---- Child Node [ <?php echo $child->tag; ?> ] </td>
+						<tr class="childrentitle1">
+							<td colspan="3"> ---- Child1 Node ---- </td>
 							<td colspan="2"> </td> 
 						</tr>
-						<tr class="childrentitle2">
+						<tr class="childrentitle1">
 							<th width="15%">tag</th>
 							<th>plainText</th>
 							<th>innerText</th>
 							<th></th>
 							<th></th>							
 						</tr>
-						<tr class="childrencontent2">
+						<tr class="childrencontent1">
 <!-- ### Nodes SUB 1 -->
 							<td>
 								<?php 
@@ -111,7 +111,7 @@
 									$nodeslug['childnode'] = $child->tag; 
 								?>
 								<?php foreach($child->attr as $attr=>$value): ?>	
-										<p>[<?php echo htmlspecialchars($attr); ?>] {<?php echo htmlspecialchars($value); ?>}</p>
+										<p><?php echo htmlspecialchars($attr); ?><?php echo htmlspecialchars($value); ?></p>
 								<?php endforeach; ?>
 							</td>
 							<td>
@@ -139,8 +139,27 @@
 							</td>
 							<!-- end map -->
 						</tr>
-<!-- ### NODE SUB 2 -->
-<!-- ###### end NODE SUB 2 -->		
+						<tr class="childrentitle2">
+							<td colspan="3">---- Child2 Node ----</td>
+							<td colspan="2"></td>
+						</tr>	
+						<?php if(count($child->children)>0): ?>
+						<tr class="childrentitle2">
+							<th>tag</th>
+							<th>plaintText</th>
+							<th>attr</th>
+							<th></th>
+							<th></th>
+						</tr>	
+
+						<?php else: ?>
+							<tr class="childrentitle2">
+								<th colspan="3"><small>%empty children2%</small></th>
+								<th colspan="2"></th>
+							</tr>	
+							<!-- end CHIL -->
+						<?php endif; ?>
+							<!-- end nodes -->			
 						<tr>
 							<td colspan="5"></td>
 						</tr>	

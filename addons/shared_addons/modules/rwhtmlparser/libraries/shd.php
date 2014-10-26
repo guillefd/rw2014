@@ -32,6 +32,11 @@ class Shd
     		$this->load_uri();
     		$this->set_html_plaintext();
     	}
+    }
+
+    public function clean_htmldom()
+    {
+        $this->htmldom->clear();
     }	
 
 
