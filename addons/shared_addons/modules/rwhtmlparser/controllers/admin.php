@@ -13,6 +13,7 @@ class Admin extends Admin_Controller
     protected $section = "items";
     private $CFG;    
     private $parser;
+    private $parserIndexed;
     private $postvalues;
 
     public function __construct()
@@ -52,12 +53,15 @@ class Admin extends Admin_Controller
         {
             $this->init_parser();
             $this->run_parser();
+            $this->tagindex_parser_result();
         }
         //construye template
         $this->template
                 ->title($this->module_details['name'], lang('rwhtmlparser:createsource'))
                 ->set( array(
                              'sourcetypes'=>$this->CFG['sourcetypes'],
+                             'node_properties'=>$this->CFG['node_properties'],
+                             'content_blocks'=>$this->CFG['content_blocks'],
                              'postvalues'=>$this->postvalues,  
                              'parser'=>$this->parser,
                              ))                      
@@ -66,6 +70,11 @@ class Admin extends Admin_Controller
         $this->clean_parser();                        
     }
 
+    public function createparsertemplate()
+    {
+var_dump($this->input->post());
+
+    }
  
     ///////////////////////////////////////
     // PRIVATE ------------------------- //
@@ -107,10 +116,38 @@ class Admin extends Admin_Controller
         }
     }
 
+
+    private function tagindex_parser_result()
+    {
+        if(isset($this->parser->result))
+        {
+            $this->parserIndexed = array();
+            foreach($this->parser->result['nodes'] as $node)
+            {
+                $newnode = new stdClass();
+                $newnode->tag = $node->tag;
+                $newnode->plaintext = $node->plaintext;
+                $newnode->innertext = $node->innertext;
+                $newnode->outertext = $node->outertext;
+                $newnode->attr = $node->attr; 
+                $this->parserIndexed[$node->tag][] = $newnode;
+            }
+        }
+echo '<pre>';
+print_r($this->parserIndexed);
+echo '</pre>';
+die;
+    }
+
+
     private function clean_parser()
     {
-        $this->shd->clean_htmldom();
+        if(isset($this->parser->result))
+        {
+            $this->shd->clean_htmldom();
+        }
     }    
+
 
     //////////////////////////
     // AUX --------------// //

@@ -29,9 +29,17 @@ $config['createsource_form_rules'] = array(
 											);
 
 $config['content_blocks'] = array(
-									'title',
-									'subtitle',
-									'date',
-									'author',
-									'content',	
+									'title'=>'Title',
+									'subtitle'=>'Subtitle',
+									'date'=>'Date',
+									'author'=>'Author',
+									'subtitlecontent'=>'Subtitle content',
+									'textcontent'=>'Text content',
+									'mediacontent'=>'Media content',	
 								  );
+
+$config['node_properties'] = array(
+									'plaintext',
+									'outertext',
+									'innertext',
+									);

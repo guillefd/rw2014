@@ -41,7 +41,7 @@
 					$nodeslug['topnode'] = $postvalues['htmlelement'];
 					$nodeSub = 0; 
 			?>
-
+			<?php echo form_open('admin/rwhtmlparser/createparsertemplate'); ?>			
 			<?php foreach($parser->result['nodes'] as $node): ?>
 				<?php $selector = $postvalues['htmlelement']; ?>			
 				<table class="createsourceform">
@@ -50,7 +50,7 @@
 					<td colspan="2"></td>
 				</tr>
 				<tr class="nodetitle">
-					<th width="15%">tag</th>
+					<th width="10%">tag</th>
 					<th>plainText</th>
 					<th>innerText</th>
 					<th></th>
@@ -58,6 +58,7 @@
 				</tr>
 				<tr class="nodecontent">
 
+<!-- ############# -->
 <!-- ### MAIN Node -->
 					<td>
 						<?php echo $node->tag; ?>
@@ -76,11 +77,11 @@
 						<?php echo htmlspecialchars(substring($node->innertext)); ?>
 					</td>
 <!-- ###### end MAIN Node -->
-
+<!-- #################### -->
 					<!-- Selector -->
 					<td>
 						<label>Selector</label><br>
-						<input type="text" name="" value="<?php echo $nodeslug['topnode']; ?>"> 
+						<?php echo $nodeslug['topnode']; ?> 
 					</td>
 					<!-- end selector -->
 
@@ -89,7 +90,7 @@
 
 					</td>
 					<!-- end map -->
-				</tr>
+				</tr>			
 				<?php foreach($node->children as $child): ?>
 					<?php $nodeSub++; ?>	
 						<tr class="childrentitle2">
@@ -97,14 +98,15 @@
 							<td colspan="2"> </td> 
 						</tr>
 						<tr class="childrentitle2">
-							<th width="15%">tag</th>
+							<th width="15%">tag <em>[attribute] {value}</em></th>
 							<th>plainText</th>
-							<th>innerText</th>
-							<th></th>
-							<th></th>							
+							<th>outertext / innertext</th>
+							<th>Selector & condition</th>
+							<th>Mapping</th>							
 						</tr>
 						<tr class="childrencontent2">
-<!-- ### Nodes SUB 1 -->
+<!-- ############### -->
+<!-- ### Nodes SUB 1 -->	
 							<td>
 								<?php 
 									echo $child->tag;
@@ -121,26 +123,57 @@
 							</td>
 							<td>
 								<textarea class="input-form" name="">
+									<?php echo htmlspecialchars($child->outertext); ?>
+								</textarea>
+								<textarea class="input-form" name="">
 									<?php echo htmlspecialchars($child->innertext); ?>
 								</textarea>
 							</td>
-<!-- ###### end Node SUB 1 -->
-
 							<!-- Selector -->
 							<?php $selector.= ' '.$child->tag; ?>
 							<td>
-								<input type="checkbox" name="" value="<?php echo $nodeslug['topnode'].' '.$nodeslug['childnode']; ?>"> <?php echo $nodeslug['topnode'].' '.$nodeslug['childnode']; ?>
+								<label>Node: <?php echo $nodeslug['topnode'].' '.$nodeslug['childnode']; ?></label>
+								<br>
+								<input class="input-form" type="checkbox" name="childnode[]" value="<?php echo $nodeslug['childnode']; ?>"> 
+									Include
+								<br>
+								<label>Node property to parse</label>
+								<br>
+								<select class="input-form" name="nodepropertyselector[]" style="width:150px">
+									<option value="">Select property</option>
+									<?php foreach($node_properties as $property_slug): ?>
+										<option value="<?php echo $property_slug; ?>"><?php echo $property_slug ?></option>
+									<?php endforeach; ?>
+								</select>
+								<div class="margin-bottom-10"></div>
+								<label class="label">Conditions</label>
+								<br>
+								<input type="checkbox" name="condition[notempty][]" value="1" checked="checked"> Not empty 
+								<br>
+								<input type="checkbox" name="condition[keywordyes][]" value="1"> Required keyword 
+								<input type="text" name="condition[keywordyesvalue][]" value="">
+								<br>
+								<input type="checkbox" name="condition[keywordno][]" value="1"> Keyword not present 
+								<input type="text" name="condition[keywordnovalue][]" value="">
+								<br>
 							</td>
 							<!-- end selector -->
 
 							<!-- map -->
 							<td>
-
+								<label>Map parse to content block</label>
+								<br>
+								<select class="input-form" name="contentblockselector[]" style="width:200px">
+									<option>Select content block</option>
+									<?php foreach($content_blocks as $block_slug=>$block_name): ?>
+										<option value="<?php echo $block_slug; ?>"><?php echo $block_name ?></option>
+									<?php endforeach; ?>
+								</select>
 							</td>
 							<!-- end map -->
 						</tr>
-<!-- ### NODE SUB 2 -->
-<!-- ###### end NODE SUB 2 -->		
+<!-- ###### end Node SUB 1 -->
+<!-- ##################### -->
 						<tr>
 							<td colspan="5"></td>
 						</tr>	
@@ -148,6 +181,8 @@
 				<!-- end NODE -->	
 				</table>				
 			<?php endforeach; ?>
+				<input type="submit" value="Generate template">
+			<?php echo form_close(); ?>		
 		<?php else: ?>
 			<h4><?php echo lang('rwhtmlparser:parser_result_empty'); ?></h4>
 		<?php endif; ?>			

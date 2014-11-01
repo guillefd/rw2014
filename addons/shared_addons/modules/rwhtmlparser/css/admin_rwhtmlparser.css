@@ -65,8 +65,9 @@ table tr.childrencontent1 td{
 
 table tr.childrentitle2 th{
 	background:#cddbf8 !important;
-	text-align: center !important;
+	text-align: left !important;
 	color: #999;
+	padding-left: 15px;
 }
 
 table tr.childrentitle2 td{
@@ -77,10 +78,19 @@ table tr.childrentitle2 td{
 
 table tr.childrencontent2 td{
 	background:#bcbcbc !important;
-	text-align: center !important;
+	text-align: left !important;
 }
 
 textarea.input-form{
 	width:200px;
-	min-height:50px;
+	min-height:75px;
+}
+
+input.input-form, 
+select.input-form{
+	margin-bottom: 15px;
+}
+
+label.label{
+	margin-bottom: 10px;
 }
