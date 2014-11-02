@@ -101,8 +101,9 @@ label.checkbox-lg{
 label.checkbox-lg span{
 	vertical-align: top;
 	margin: 7px 10px;
-	font-size: 15px;
+	font-size: 16px;
 	display: inline-block;
+	color: #1a8e1a;
 }
 
 input.input-form[type="checkbox"]{
@@ -121,8 +122,32 @@ label.label{
 }
 
 td div.childnodetag{
+	display: inline-block;
+	width: 150px;
+	vertical-align: top;
+	padding-top: 24px;		
+}
+
+td div.childnodetext{
+	display: inline-block;
+	left: 150px;
+	height: 100px;
+	clear: left;
+	height: 125px;
+}
+
+td div.childnodetext div.textarea{
 	float: left;
-	min-width: 150px;	
+	padding: 5px;
+}
+
+td div.childnodetext div.textarea textarea{
+	display: block;
+}
+
+td div.childnodetext div.textarea small{
+	float: left;
+	clear: right;
 }
 
 td.childnode{
@@ -136,8 +161,21 @@ td div.selector{
 	margin: 15px 15px 0 0;
 }
 
-td div.selector h5{
-	font-size: 14px;
-	margin:0px;
+td div.selector h4{
+	font-size: 18px;
+	margin:5px 0 10px 0;
+}
 
+td div.selector h3{
+	font-size: 22px;
+	margin:0px;
+}
+
+td div.selector h4 small{
+	color:#777;
+}
+
+td div.selector hr{
+	margin: 5px 0 10px 0;
+	border: 1px solid #ccc;	
 }

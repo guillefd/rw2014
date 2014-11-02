@@ -54,8 +54,7 @@
 				</tr>
 				<tr class="childrentitle2">
 					<th width="15%">tag <em>[attribute] {value}</em></th>
-					<th>plainText</th>
-					<th>outertext / innertext</th>
+					<th colspan="2">plaintext / outertext / innertext</th>
 					<th>Include and Map</th>			
 				</tr>
 				<tr class="childrencontent2">
@@ -75,12 +74,23 @@
 									<em><br>{ no attributes }</em>
 								<?php endif; ?>
 							</div>
-							<!-- plaintext -->
-							<textarea class="input-form" name=""><?php echo trim($childnode->plaintext); ?></textarea>
-							<!-- outertext -->
-							<textarea class="input-form" name=""><?php echo htmlspecialchars($childnode->outertext); ?></textarea>
-							<!-- innertext --> 
-							<textarea class="input-form" name=""><?php echo htmlspecialchars($childnode->innertext); ?></textarea>
+							<div class="childnodetext">
+								<!-- plaintext -->
+								<div class="textarea">
+									<small><em>Node property</em>: plaintext</small><br>
+									<textarea class="input-form" name=""><?php echo trim($childnode->plaintext); ?></textarea>
+								</div>
+								<!-- outertext -->
+								<div class="textarea">
+									<small><em>Node property</em>: outertext</small><br>
+									<textarea class="input-form" name=""><?php echo htmlspecialchars($childnode->outertext); ?></textarea>
+								</div>	
+								<!-- innertext -->
+								<div class="textarea">
+									<small><em>Node property</em>: innertext</small><br> 
+									<textarea class="input-form" name=""><?php echo htmlspecialchars($childnode->innertext); ?></textarea>
+								</div>
+							</div>
 							<br>
 						<?php endforeach; ?>	
 					</td>
@@ -89,17 +99,18 @@
 					<?php $selector.= ' '.$childtag; ?>
 					<td class="childnode">
 						<div class="selector">
-							<h5><b>Include, filter and map</b>
-								<br>Node: <?php echo $node->tag.' '.$childtag; ?>
-							</h5>
-							<br>
+							<h3><b>Select & Map</b>
+							</h3>
 							<label class="checkbox-lg">
 								<input class="input-form" type="checkbox" name="childnode[]" value="<?php echo $childnode->tag; ?>">
 								<span>Include <em><?php echo $childtag; ?></em></span>
 							</label>
-							<br>
-							<label>Node property to parse</label>
-							<br>
+							<label class="checkbox-lg">
+								<input class="input-form" type="checkbox" name="childnode[]" value="<?php echo $childnode->tag; ?>">
+								<span>Required for parsing</span>
+							</label>
+							<hr>
+							<h4>Copy property:</h4>
 							<select class="input-form" name="nodepropertyselector[]" style="width:150px">
 								<option value="">Select property</option>
 								<?php foreach($node_properties as $property_slug): ?>
@@ -107,20 +118,19 @@
 								<?php endforeach; ?>
 							</select>
 							<div class="margin-bottom-10"></div>
-							<label class="label">Conditions</label>
-							<br>
-							<input type="checkbox" name="condition[notempty][]" value="1" checked="checked"> Not empty 
-							<br>
-							<input type="checkbox" name="condition[keywordyes][]" value="1"> Required keyword 
-							<input type="text" name="condition[keywordyesvalue][]" value="">
-							<br>
-							<input type="checkbox" name="condition[keywordno][]" value="1"> Keyword not present 
-							<input type="text" name="condition[keywordnovalue][]" value="">
+							<h4>If property is:</h4>
+							<input type="checkbox" name="condition[notempty][]" value="1" checked="checked"> not empty 
 							<br>
 							<div class="margin-bottom-10"></div>
-							<hr>
-							<label>Map parse to content block</label>
+							<label>has this keyword</label> 
+							<input type="text" name="condition[keywordyesvalue][]" value="">
 							<br>
+							<div class="margin-bottom-10"></div>
+							<label>Does not have this keywords</label> 
+							<input type="text" name="condition[keywordnovalue][]" value="">
+							<div class="margin-bottom-10"></div>
+							<hr>
+							<h4>Map property to:</h4>
 							<select class="input-form" name="contentblockselector[]" style="width:200px">
 								<option>Select content block</option>
 								<?php foreach($content_blocks as $block_slug=>$block_name): ?>
