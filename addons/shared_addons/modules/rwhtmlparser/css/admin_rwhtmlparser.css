@@ -15,6 +15,14 @@
 	margin-bottom:40px;
 }
 
+h2{
+	font-size: 25px !important;
+	line-height: 1 !important;
+}
+
+h2 small{
+	font-size:16px !important; 
+}
 
 table td{
 	word-wrap: break-word;	
@@ -86,6 +94,23 @@ textarea.input-form{
 	min-height:75px;
 }
 
+label.checkbox-lg{
+	display: block;	
+	margin-bottom: 5px;
+}
+label.checkbox-lg span{
+	vertical-align: top;
+	margin: 7px 10px;
+	font-size: 15px;
+	display: inline-block;
+}
+
+input.input-form[type="checkbox"]{
+	height: 25px !important;
+	width: 25px !important;
+	margin: 0px;
+}
+
 input.input-form, 
 select.input-form{
 	margin-bottom: 15px;
@@ -93,4 +118,26 @@ select.input-form{
 
 label.label{
 	margin-bottom: 10px;
+}
+
+td div.childnodetag{
+	float: left;
+	min-width: 150px;	
+}
+
+td.childnode{
+	vertical-align: top;
+}
+
+td div.selector{
+	float: right;
+	padding: 20px;
+	border: 1px solid #999;
+	margin: 15px 15px 0 0;
+}
+
+td div.selector h5{
+	font-size: 14px;
+	margin:0px;
+
 }
