@@ -33,31 +33,25 @@
 	</div>
 
 	<div class="content">
-		<?php if(isset($parser->result)): ?>	
+		<?php if(isset($nodes)): ?>	
 		<h4>Nodes found for element: <b><?php echo $postvalues['htmlelement']; ?></b></h4>
+		<h5>Total nodes: <?php $count; ?></h5>
 		<div class="margin-bottom-10"></div>				
-			<?php 
-					//init
-					$nodeslug['topnode'] = $postvalues['htmlelement'];
-					$nodeSub = 0; 
-			?>
-			<?php echo form_open('admin/rwhtmlparser/createparsertemplate'); ?>			
-			<?php foreach($parser->result['nodes'] as $node): ?>
-				<?php $selector = $postvalues['htmlelement']; ?>			
-				<table class="createsourceform">
+		<?php echo form_open('admin/rwhtmlparser/createparsertemplate'); ?>			
+			<?php foreach($nodes as $node): ?>
+			<?php $selector = $node->tag; ?>			
+			<table class="createsourceform">
 				<tr class="nodetitle">
 					<td colspan="3">---- Node ----</td>
-					<td colspan="2"></td>
+					<td colspan="1"></td>
 				</tr>
 				<tr class="nodetitle">
 					<th width="10%">tag</th>
 					<th>plainText</th>
 					<th>innerText</th>
-					<th></th>
-					<th></th>							
+					<th>Include & Map</th>					
 				</tr>
 				<tr class="nodecontent">
-
 <!-- ############# -->
 <!-- ### MAIN Node -->
 					<td>
@@ -67,7 +61,7 @@
 								<p><?php echo '['.$attr.']'; ?> <?php echo '{'.$value.'}'; ?></p>
 							<?php endforeach; ?>
 						<?php else: ?>
-							<p>{ 0 attr }</p>	
+							<p>{ no attr }</p>	
 						<?php endif; ?>
 					</td>
 					<td>
@@ -78,63 +72,52 @@
 					</td>
 <!-- ###### end MAIN Node -->
 <!-- #################### -->
-					<!-- Selector -->
+					<!-- Include and select -->
 					<td>
 						<label>Selector</label><br>
-						<?php echo $nodeslug['topnode']; ?> 
+						<?php echo $node->tag; ?> 
 					</td>
-					<!-- end selector -->
-
-					<!-- map -->
-					<td>
-
-					</td>
-					<!-- end map -->
+					<!-- end include and select -->
 				</tr>			
-				<?php foreach($node->children as $child): ?>
-					<?php $nodeSub++; ?>	
+				<?php foreach($node->childnodes as $childtag=>$childnodeArr): ?>
 						<tr class="childrentitle2">
-							<td colspan="3"> ---- Child Node [ <?php echo $child->tag; ?> ] </td>
-							<td colspan="2"> </td> 
+							<td colspan="4"> ---- Child Nodes [<?php echo $childtag; ?>] (<?php echo count($node->childnodes); ?>)</td>
 						</tr>
 						<tr class="childrentitle2">
 							<th width="15%">tag <em>[attribute] {value}</em></th>
 							<th>plainText</th>
 							<th>outertext / innertext</th>
-							<th>Selector & condition</th>
-							<th>Mapping</th>							
+							<th>Include and Map</th>			
 						</tr>
 						<tr class="childrencontent2">
 <!-- ############### -->
 <!-- ### Nodes SUB 1 -->	
-							<td>
-								<?php 
-									echo $child->tag;
-									$nodeslug['childnode'] = $child->tag; 
-								?>
-								<?php foreach($child->attr as $attr=>$value): ?>	
+							<!-- childnode -->
+							<td colspan="3">
+								<?php foreach($childnodeArr as $childnode): ?>	
+									<?php echo $childnode->tag; ?>
+									<?php foreach($childnode->attr as $attr=>$value): ?>	
 										<p>[<?php echo htmlspecialchars($attr); ?>] {<?php echo htmlspecialchars($value); ?>}</p>
-								<?php endforeach; ?>
+									<?php endforeach; ?>
+									<textarea class="input-form" name="">
+										<?php echo trim($childnode->plaintext); ?>
+									</textarea>
+									<textarea class="input-form" name="">
+										<?php echo htmlspecialchars($childnode->outertext); ?>
+									</textarea>
+									<textarea class="input-form" name="">
+										<?php echo htmlspecialchars($childnode->innertext); ?>
+									</textarea>
+									<br>
+								<?php endforeach; ?>	
 							</td>
-							<td>
-								<textarea class="input-form" name="">
-									<?php echo trim($child->plaintext); ?>
-								</textarea>
-							</td>
-							<td>
-								<textarea class="input-form" name="">
-									<?php echo htmlspecialchars($child->outertext); ?>
-								</textarea>
-								<textarea class="input-form" name="">
-									<?php echo htmlspecialchars($child->innertext); ?>
-								</textarea>
-							</td>
+							<!-- end childnode -->
 							<!-- Selector -->
-							<?php $selector.= ' '.$child->tag; ?>
+							<?php $selector.= ' '.$childtag; ?>
 							<td>
-								<label>Node: <?php echo $nodeslug['topnode'].' '.$nodeslug['childnode']; ?></label>
+								<label>Node: <?php echo $node->tag.' '.$childtag; ?></label>
 								<br>
-								<input class="input-form" type="checkbox" name="childnode[]" value="<?php echo $nodeslug['childnode']; ?>"> 
+								<input class="input-form" type="checkbox" name="childnode[]" value="<?php echo $childnode->tag; ?>"> 
 									Include
 								<br>
 								<label>Node property to parse</label>
@@ -156,11 +139,8 @@
 								<input type="checkbox" name="condition[keywordno][]" value="1"> Keyword not present 
 								<input type="text" name="condition[keywordnovalue][]" value="">
 								<br>
-							</td>
-							<!-- end selector -->
-
-							<!-- map -->
-							<td>
+								<div class="margin-bottom-10"></div>
+								<hr>
 								<label>Map parse to content block</label>
 								<br>
 								<select class="input-form" name="contentblockselector[]" style="width:200px">
@@ -175,7 +155,7 @@
 <!-- ###### end Node SUB 1 -->
 <!-- ##################### -->
 						<tr>
-							<td colspan="5"></td>
+							<td colspan="4"></td>
 						</tr>	
 				<?php endforeach; ?>					
 				<!-- end NODE -->	

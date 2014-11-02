@@ -54,6 +54,10 @@ class Admin extends Admin_Controller
             $this->init_parser();
             $this->run_parser();
             $this->tagindex_parser_result();
+            $this->template->set(array(
+                                     'nodes'=>$this->parserIndexed->nodes,
+                                     'count'=>$this->parserIndexed->count,
+                                    ));
         }
         //construye template
         $this->template
@@ -62,8 +66,7 @@ class Admin extends Admin_Controller
                              'sourcetypes'=>$this->CFG['sourcetypes'],
                              'node_properties'=>$this->CFG['node_properties'],
                              'content_blocks'=>$this->CFG['content_blocks'],
-                             'postvalues'=>$this->postvalues,  
-                             'parser'=>$this->parser,
+                             'postvalues'=>$this->postvalues,
                              ))                      
                 ->build('admin/createsource');  
         # clean dom        
@@ -119,9 +122,12 @@ var_dump($this->input->post());
 
     private function tagindex_parser_result()
     {
+        $order = 0;
+        $this->parserIndexed = new stdClass();
+        $this->parserIndexed->nodes = array();
+        $this->parserIndexed->count = 0;
         if(isset($this->parser->result))
         {
-            $this->parserIndexed = array();
             foreach($this->parser->result['nodes'] as $node)
             {
                 $newnode = new stdClass();
@@ -129,14 +135,25 @@ var_dump($this->input->post());
                 $newnode->plaintext = $node->plaintext;
                 $newnode->innertext = $node->innertext;
                 $newnode->outertext = $node->outertext;
-                $newnode->attr = $node->attr; 
-                $this->parserIndexed[$node->tag][] = $newnode;
+                $newnode->attr = $node->attr;
+                foreach($node->children as $child)
+                {                    
+                    $newchild = new stdClass();
+                    $newchild->tag = $child->tag;
+                    $newchild->plaintext = $child->plaintext;
+                    $newchild->innertext = $child->innertext;
+                    $newchild->outertext = $child->outertext;
+                    $newchild->attr = $child->attr;  
+                    $newnode->childnodes[$child->tag][$order] = $newchild; 
+                    $order++;
+                }
+                $this->parserIndexed->nodes[] = $newnode;
             }
+            $this->parserIndexed->count = $order;
         }
-echo '<pre>';
-print_r($this->parserIndexed);
-echo '</pre>';
-die;
+// var_dump($order);        
+// var_dump($this->parserIndexed);
+// die;
     }
 
 
@@ -187,7 +204,7 @@ die;
 
     private function set_full_dump()
     {
-        ini_set('xdebug.var_display_max_depth', 3);
+        ini_set('xdebug.var_display_max_depth', 6);
         ini_set('xdebug.var_display_max_children', 25);
         ini_set('xdebug.var_display_max_data', 150);       
     }   
