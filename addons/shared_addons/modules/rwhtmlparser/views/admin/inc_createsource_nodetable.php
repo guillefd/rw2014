@@ -3,14 +3,11 @@
 	<?php $selector = $node->tag; ?>			
 	<table class="createsourceform">
 		<tr class="nodetitle">
-			<td colspan="3">NODE [ <?php echo $node->tag; ?> ] [ <?php echo $node->order; ?> ]</td>
-			<td colspan="1"></td>
+			<td colspan="2">NODE [ <?php echo $node->tag; ?> ] [ <?php echo $node->order; ?> ]</td>
 		</tr>
 		<tr class="nodetitle">
-			<th width="10%">tag</th>
-			<th>plainText</th>
-			<th>innerText</th>
-			<th>Include & Map</th>					
+			<th width="10%">tag
+			<th>plainText / innerText</th>					
 		</tr>
 		<tr class="nodecontent">
 <!-- ############# -->
@@ -26,20 +23,11 @@
 				<?php endif; ?>
 			</td>
 			<td>
-				<?php echo $node->plaintext!='' ? substring($node->plaintext, 800) : '<small>%empty plaintext%</small>'; ?>
+				<?php echo htmlspecialchars(substring($node->outertext)); ?>
 			</td>
-			<td>
-				<?php echo htmlspecialchars(substring($node->innertext)); ?>
-			</td>
-			<!-- Include and select -->
-			<td>
-				<label>Selector</label><br>
-				<?php echo $node->tag; ?> 
-			</td>
-			<!-- end include and select -->
 		</tr>	
 				<tr>
-					<td colspan="4"></td>
+					<td colspan="2"></td>
 				</tr>	
 <!-- ###### end MAIN Node -->
 <!-- #################### -->
@@ -49,17 +37,16 @@
 <!-- ### Nodes SUB 1 -->								
 		<?php foreach($node->childnodes as $childtag=>$childnodeArr): ?>
 				<tr class="childrentitle2">
-					<td colspan="4"> NODE [ <?php echo $node->tag; ?> ] [ <?php echo $node->order; ?> ]
-									 > Child Node [ <?php echo $childtag; ?> ] [ <?php echo count($childnodeArr); ?> ]</td>
+					<td colspan="2"> NODE [ <?php echo $node->tag; ?>] [ <?php echo $node->order; ?> ]
+									 > Child Node [ <?php echo $childtag; ?>  (<?php echo count($childnodeArr); ?>) ]</td>
 				</tr>
 				<tr class="childrentitle2">
-					<th width="15%">tag <em>[attribute] {value}</em></th>
-					<th colspan="2">plaintext / outertext / innertext</th>
+					<th width="15%">tag <em>[attribute] {value}</em> plaintext / outertext / innertext</th>
 					<th>Include and Map</th>			
 				</tr>
 				<tr class="childrencontent2">
 					<!-- childnode -->
-					<td colspan="3">
+					<td width="75%">
 						<?php foreach($childnodeArr as $childnode): ?>
 							<!-- tag > attr -->
 							<div class="childnodetag">
@@ -72,6 +59,13 @@
 									</ul>
 								<?php else: ?>
 									<em><br>{ no attributes }</em>
+								<?php endif; ?>
+								<?php if(isset($childnode->child2nodes)): ?>
+									<br><p><em>Childnodes</em>:<br>
+									<?php foreach($childnode->child2nodes as $child2tag=>$child2node): ?>
+										<b><?php echo $childnode->tag; ?> <?php echo $child2tag; ?></b><br>
+									<?php endforeach; ?>
+									</p>
 								<?php endif; ?>
 							</div>
 							<div class="childnodetext">
@@ -101,12 +95,14 @@
 						<div class="selector">
 							<h3><b>Select & Map</b>
 							</h3>
+							<?php foreach($childnode->tags as $targettag=>$count): ?>
+								<label class="checkbox-lg">
+									<input class="input-form" type="checkbox" name="childnode[]" value="<?php echo $targettag; ?>">
+									<span>Include <em><?php echo $targettag; ?> (<?php echo $count; ?>)</em></span>
+								</label>
+							<?php endforeach; ?>
 							<label class="checkbox-lg">
-								<input class="input-form" type="checkbox" name="childnode[]" value="<?php echo $childnode->tag; ?>">
-								<span>Include <em><?php echo $childtag; ?></em></span>
-							</label>
-							<label class="checkbox-lg">
-								<input class="input-form" type="checkbox" name="childnode[]" value="<?php echo $childnode->tag; ?>">
+								<input class="input-form" type="checkbox" name="required[]" value="1">
 								<span>Required for parsing</span>
 							</label>
 							<hr>
@@ -137,18 +133,18 @@
 									<option value="<?php echo $block_slug; ?>"><?php echo $block_name ?></option>
 								<?php endforeach; ?>
 							</select>
-						</div>
+						</div>					
 					</td>
 					<!-- end map -->
 				</tr>
 <!-- ###### end Node SUB 1 -->
 <!-- ##################### -->
 				<tr>
-					<td colspan="4"></td>
+					<td colspan="2"></td>
 				</tr>	
 		<?php endforeach; ?>					
 		<!-- end NODE -->	
 		</table>				
 	<?php endforeach; ?>
-	<input type="submit" value="Generate template">
+	<input class="btn blue large" type="submit" value="Generate Parse Map template">
 <?php echo form_close(); ?>	

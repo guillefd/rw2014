@@ -139,26 +139,46 @@ var_dump($this->input->post());
                 $newnode->innertext = trim($node->innertext);
                 $newnode->outertext = trim($node->outertext);
                 $newnode->attr = $node->attr;
+                $childorder = 0; 
                 foreach($node->children as $child)
-                {                    
+                {                   
                     $newchild = new stdClass();
                     $newchild->tag = $child->tag;
+                    $newchild->tags[$child->tag] = isset($newchild->tags[$child->tag]) 
+                                                    ? $newchild->tags[$child->tag]+1
+                                                    : 1;
                     $newchild->plaintext = trim($child->plaintext);
                     $newchild->innertext = trim($child->innertext);
                     $newchild->outertext = trim($child->outertext);
                     $newchild->attr = $child->attr;  
                     $newchild->order = $childorder;
+                    $child2order = 0; 
+                    foreach($child->children as $child2)
+                    {
+                        $child2order = 0;
+                        $newchild2 = new stdClass();
+                        $newchild2->tag = $child2->tag;
+                        $newchild2->plaintext = trim($child2->plaintext);
+                        $newchild2->innertext = trim($child2->innertext);
+                        $newchild2->outertext = trim($child2->outertext);
+                        $newchild2->attr = $child2->attr;  
+                        $newchild2->order = $child2order;
+                        $newchild->child2nodes[$child2->tag][$child2order] = $newchild2;
+                        $child2order++;                
+                        $newchild->tags[$child->tag.' '.$child2->tag] = isset($newchild->tags[$child->tag.' '.$child2->tag]) 
+                                                                        ? $newchild->tags[$child->tag.' '.$child2->tag]+1
+                                                                        : 1;             
+                    }
                     $newnode->childnodes[$child->tag][$childorder] = $newchild; 
                     $childorder++;
                 }
                 $this->parserIndexed->nodes[] = $newnode;
                 $nodeorder++;
-                $count+= $childorder;
-                $childorder = 0;
+                $count+= $childorder + $child2order;
             }
             $this->parserIndexed->count = $count;
         }
-// var_dump($order);        
+// var_dump($count);        
 // var_dump($this->parserIndexed);
 // die;
     }
@@ -211,7 +231,7 @@ var_dump($this->input->post());
 
     private function set_full_dump()
     {
-        ini_set('xdebug.var_display_max_depth', 6);
+        ini_set('xdebug.var_display_max_depth', 9);
         ini_set('xdebug.var_display_max_children', 25);
         ini_set('xdebug.var_display_max_data', 150);       
     }   

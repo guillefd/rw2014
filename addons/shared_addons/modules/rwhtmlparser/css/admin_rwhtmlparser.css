@@ -28,11 +28,6 @@ table td{
 	word-wrap: break-word;	
 }
 
-table{
-	table-layout: fixed; 
-	width: 100%;
-}
-
 table th{
 	text-align: center !important;
 	color: #999;
@@ -90,7 +85,7 @@ table tr.childrencontent2 td{
 }
 
 textarea.input-form{
-	width:200px;
+	width:210px;
 	min-height:75px;
 }
 
@@ -100,15 +95,15 @@ label.checkbox-lg{
 }
 label.checkbox-lg span{
 	vertical-align: top;
-	margin: 7px 10px;
-	font-size: 16px;
+	margin: 5px 10px;
+	font-size: 12px;
 	display: inline-block;
 	color: #1a8e1a;
 }
 
 input.input-form[type="checkbox"]{
-	height: 25px !important;
-	width: 25px !important;
+	height: 20px !important;
+	width: 20px !important;
 	margin: 0px;
 }
 
@@ -130,8 +125,7 @@ td div.childnodetag{
 
 td div.childnodetext{
 	display: inline-block;
-	left: 150px;
-	height: 100px;
+	left: 100px;
 	clear: left;
 	height: 125px;
 }
@@ -155,10 +149,12 @@ td.childnode{
 }
 
 td div.selector{
-	float: right;
-	padding: 20px;
+	display: inline-block;
+	float: left;
+	padding: 20px 15px;
 	border: 1px solid #999;
 	margin: 15px 15px 0 0;
+	width: 220px;
 }
 
 td div.selector h4{
