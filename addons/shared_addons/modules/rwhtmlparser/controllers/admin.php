@@ -128,6 +128,7 @@ var_dump($this->input->post());
         $this->parserIndexed = new stdClass();
         $this->parserIndexed->nodes = array();
         $this->parserIndexed->count = 0;
+        $this->parserIndexed->tags = array();
         if(isset($this->parser->result))
         {
             foreach($this->parser->result['nodes'] as $node)
@@ -135,6 +136,7 @@ var_dump($this->input->post());
                 $newnode = new stdClass();
                 $newnode->order = $nodeorder;
                 $newnode->tag = $node->tag;
+                $newnode->tags = array();
                 $newnode->plaintext = trim($node->plaintext);
                 $newnode->innertext = trim($node->innertext);
                 $newnode->outertext = trim($node->outertext);
@@ -144,43 +146,42 @@ var_dump($this->input->post());
                 {                   
                     $newchild = new stdClass();
                     $newchild->tag = $child->tag;
-                    $newchild->tags[$child->tag] = isset($newchild->tags[$child->tag]) 
-                                                    ? $newchild->tags[$child->tag]+1
-                                                    : 1;
                     $newchild->plaintext = trim($child->plaintext);
                     $newchild->innertext = trim($child->innertext);
                     $newchild->outertext = trim($child->outertext);
                     $newchild->attr = $child->attr;  
-                    $newchild->order = $childorder;
+                    $newchild->order = $childorder;                 
                     $child2order = 0; 
                     foreach($child->children as $child2)
                     {
-                        $child2order = 0;
                         $newchild2 = new stdClass();
-                        $newchild2->tag = $child2->tag;
+                        $newchild2->tag = $child->tag.' '.$child2->tag;
                         $newchild2->plaintext = trim($child2->plaintext);
                         $newchild2->innertext = trim($child2->innertext);
                         $newchild2->outertext = trim($child2->outertext);
                         $newchild2->attr = $child2->attr;  
                         $newchild2->order = $child2order;
-                        $newchild->child2nodes[$child2->tag][$child2order] = $newchild2;
-                        $child2order++;                
-                        $newchild->tags[$child->tag.' '.$child2->tag] = isset($newchild->tags[$child->tag.' '.$child2->tag]) 
-                                                                        ? $newchild->tags[$child->tag.' '.$child2->tag]+1
-                                                                        : 1;             
+                        $newchild->child2nodes[$newchild2->tag][$child2order] = $newchild2; 
+                        // save tags                   
+                        $this->parserIndexed->tags[$child->tag][$newchild2->tag] = isset($this->parserIndexed->tags[$child->tag][$newchild2->tag])
+                                                                                   ? $this->parserIndexed->tags[$child->tag][$newchild2->tag] + 1
+                                                                                   : 1;                                                                        
+                        $child2order++; 
                     }
-                    $newnode->childnodes[$child->tag][$childorder] = $newchild; 
+                    // save node
+                    $newnode->childnodes[$child->tag][$childorder] = $newchild;                    
                     $childorder++;
+                    $count+= $child2order;
                 }
                 $this->parserIndexed->nodes[] = $newnode;
                 $nodeorder++;
-                $count+= $childorder + $child2order;
+                $count+= $childorder;
             }
             $this->parserIndexed->count = $count;
         }
-// var_dump($count);        
-// var_dump($this->parserIndexed);
-// die;
+var_dump($count);        
+var_dump($this->parserIndexed);
+die;
     }
 
 

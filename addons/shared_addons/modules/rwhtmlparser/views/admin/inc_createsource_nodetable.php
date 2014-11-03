@@ -63,7 +63,7 @@
 								<?php if(isset($childnode->child2nodes)): ?>
 									<br><p><em>Childnodes</em>:<br>
 									<?php foreach($childnode->child2nodes as $child2tag=>$child2node): ?>
-										<b><?php echo $childnode->tag; ?> <?php echo $child2tag; ?></b><br>
+										<b><?php echo $child2tag; ?></b><br>
 									<?php endforeach; ?>
 									</p>
 								<?php endif; ?>
@@ -93,46 +93,48 @@
 					<?php $selector.= ' '.$childtag; ?>
 					<td class="childnode">
 						<div class="selector">
-							<h3><b>Select & Map</b>
-							</h3>
+							<h3><b>Select & Map</b></h3>
 							<?php foreach($childnode->tags as $targettag=>$count): ?>
-								<label class="checkbox-lg">
-									<input class="input-form" type="checkbox" name="childnode[]" value="<?php echo $targettag; ?>">
-									<span>Include <em><?php echo $targettag; ?> (<?php echo $count; ?>)</em></span>
-								</label>
+									<hr>	
+									<label class="checkbox-lg">
+										<input class="input-form" type="checkbox" name="childnode[]" value="<?php echo $targettag; ?>">
+										<span>Include <em><?php echo $targettag; ?> (<?php echo $count; ?>)</em></span>
+									</label>
+									<label class="checkbox-lg">
+										<input class="input-form" type="checkbox" name="required[]" value="1">
+										<span>Required for parsing</span>
+									</label>
+									<div class="input-field">
+										<label class="label-select">Property</label>
+										<select class="input-form" name="nodepropertyselector[]" style="width:150px">
+											<option value="">select</option>
+											<?php foreach($node_properties as $property_slug): ?>
+												<option value="<?php echo $property_slug; ?>"><?php echo $property_slug ?></option>
+											<?php endforeach; ?>
+										</select>
+									</div>
+									<div class="input-field">
+										<input type="checkbox" name="condition[notempty][]" value="1" checked="checked">
+										<label>copy if not empty</label> 
+									</div>
+									<div class="input-field">
+										<label>keywords</label>
+										<input type="text" name="condition[keywordyesvalue][]" value="">
+									</div>
+									<div class="input-field">
+										<label>no keywords</label> 
+										<input type="text" name="condition[keywordnovalue][]" value="">
+									</div>
+									<div class="input-field">
+										<label class="label-select">Map to:</label>
+										<select class="input-form" name="contentblockselector[]" style="width:150px">
+											<option>Select block</option>
+											<?php foreach($content_blocks as $block_slug=>$block_name): ?>
+												<option value="<?php echo $block_slug; ?>"><?php echo $block_name ?></option>
+											<?php endforeach; ?>
+										</select>
+									</div>
 							<?php endforeach; ?>
-							<label class="checkbox-lg">
-								<input class="input-form" type="checkbox" name="required[]" value="1">
-								<span>Required for parsing</span>
-							</label>
-							<hr>
-							<h4>Copy property:</h4>
-							<select class="input-form" name="nodepropertyselector[]" style="width:150px">
-								<option value="">Select property</option>
-								<?php foreach($node_properties as $property_slug): ?>
-									<option value="<?php echo $property_slug; ?>"><?php echo $property_slug ?></option>
-								<?php endforeach; ?>
-							</select>
-							<div class="margin-bottom-10"></div>
-							<h4>If property is:</h4>
-							<input type="checkbox" name="condition[notempty][]" value="1" checked="checked"> not empty 
-							<br>
-							<div class="margin-bottom-10"></div>
-							<label>has this keyword</label> 
-							<input type="text" name="condition[keywordyesvalue][]" value="">
-							<br>
-							<div class="margin-bottom-10"></div>
-							<label>Does not have this keywords</label> 
-							<input type="text" name="condition[keywordnovalue][]" value="">
-							<div class="margin-bottom-10"></div>
-							<hr>
-							<h4>Map property to:</h4>
-							<select class="input-form" name="contentblockselector[]" style="width:200px">
-								<option>Select content block</option>
-								<?php foreach($content_blocks as $block_slug=>$block_name): ?>
-									<option value="<?php echo $block_slug; ?>"><?php echo $block_name ?></option>
-								<?php endforeach; ?>
-							</select>
 						</div>					
 					</td>
 					<!-- end map -->

@@ -86,7 +86,7 @@ table tr.childrencontent2 td{
 
 textarea.input-form{
 	width:210px;
-	min-height:75px;
+	min-height:100px;
 }
 
 label.checkbox-lg{
@@ -127,7 +127,7 @@ td div.childnodetext{
 	display: inline-block;
 	left: 100px;
 	clear: left;
-	height: 125px;
+	height: 150px;
 }
 
 td div.childnodetext div.textarea{
@@ -154,7 +154,13 @@ td div.selector{
 	padding: 20px 15px;
 	border: 1px solid #999;
 	margin: 15px 15px 0 0;
-	width: 220px;
+	width: 280px;
+}
+
+td div.selector label.label-select{
+	display: inline-block;
+	vertical-align: top;
+	margin-top: 13px;
 }
 
 td div.selector h4{
@@ -173,5 +179,14 @@ td div.selector h4 small{
 
 td div.selector hr{
 	margin: 5px 0 10px 0;
-	border: 1px solid #ccc;	
+	border: 1px solid #999;	
+}
+
+div.input-field{
+	display: block;
+}
+
+div.input-field label{
+	min-width: 80px;
+	display: inline-block;
 }
