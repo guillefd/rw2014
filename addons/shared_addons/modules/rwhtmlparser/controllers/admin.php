@@ -57,6 +57,7 @@ class Admin extends Admin_Controller
             $this->template->set(array(
                                      'nodes'=>$this->parserIndexed->nodes,
                                      'count'=>$this->parserIndexed->count,
+                                     'tagsArr'=>$this->parserIndexed->tags,
                                     ));
         }
         //construye template
@@ -143,7 +144,7 @@ var_dump($this->input->post());
                 $newnode->attr = $node->attr;
                 $childorder = 0; 
                 foreach($node->children as $child)
-                {                   
+                {                 
                     $newchild = new stdClass();
                     $newchild->tag = $child->tag;
                     $newchild->plaintext = trim($child->plaintext);
@@ -152,6 +153,10 @@ var_dump($this->input->post());
                     $newchild->attr = $child->attr;  
                     $newchild->order = $childorder;                 
                     $child2order = 0; 
+                    // save tag
+                    $this->parserIndexed->tags[$child->tag][$child->tag] = isset($this->parserIndexed->tags[$child->tag][$child->tag])
+                                                                                   ? $this->parserIndexed->tags[$child->tag][$child->tag] + 1
+                                                                                   : 1; 
                     foreach($child->children as $child2)
                     {
                         $newchild2 = new stdClass();
@@ -179,9 +184,9 @@ var_dump($this->input->post());
             }
             $this->parserIndexed->count = $count;
         }
-var_dump($count);        
-var_dump($this->parserIndexed);
-die;
+// var_dump($count);        
+// var_dump($this->parserIndexed);
+// die;
     }
 
 

@@ -1,6 +1,5 @@
 <?php echo form_open('admin/rwhtmlparser/createparsertemplate'); ?>			
-	<?php foreach($nodes as $node): ?>
-	<?php $selector = $node->tag; ?>			
+	<?php foreach($nodes as $node): ?>		
 	<table class="createsourceform">
 		<tr class="nodetitle">
 			<td colspan="2">NODE [ <?php echo $node->tag; ?> ] [ <?php echo $node->order; ?> ]</td>
@@ -62,8 +61,10 @@
 								<?php endif; ?>
 								<?php if(isset($childnode->child2nodes)): ?>
 									<br><p><em>Childnodes</em>:<br>
-									<?php foreach($childnode->child2nodes as $child2tag=>$child2node): ?>
-										<b><?php echo $child2tag; ?></b><br>
+									<?php foreach($tagsArr[$childnode->tag] as $targettag=>$count): ?>
+										<?php if($targettag!=$childnode->tag): ?>
+											<b><?php echo $targettag; ?></b><br>
+										<?php endif; ?>	
 									<?php endforeach; ?>
 									</p>
 								<?php endif; ?>
@@ -90,11 +91,10 @@
 					</td>
 					<!-- end childnode -->
 					<!-- Selector -->
-					<?php $selector.= ' '.$childtag; ?>
 					<td class="childnode">
 						<div class="selector">
 							<h3><b>Select & Map</b></h3>
-							<?php foreach($childnode->tags as $targettag=>$count): ?>
+							<?php foreach($tagsArr[$childnode->tag] as $targettag=>$count): ?>
 									<hr>	
 									<label class="checkbox-lg">
 										<input class="input-form" type="checkbox" name="childnode[]" value="<?php echo $targettag; ?>">
