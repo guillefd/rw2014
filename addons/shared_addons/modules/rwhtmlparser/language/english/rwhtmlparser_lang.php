@@ -16,3 +16,4 @@ $lang['rwhtmlparser:htmlelementparam'] =		"Html element param target";
 // messages
 $lang['rwhtmlparser:no_items']     =       		"Items";
 $lang['rwhtmlparser:parser_result_empty'] = 	"No source defined, please add a target and Run parser";
+$lang['rwhtmlparser:createparsermap_empty'] = 	"No parser nodes selected, try again please";

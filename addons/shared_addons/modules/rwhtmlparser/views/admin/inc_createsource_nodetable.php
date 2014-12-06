@@ -89,24 +89,25 @@
 							<br>
 						<?php endforeach; ?>	
 					</td>
-					<!-- end childnode -->
+					<!-- end childnode --> 
 					<!-- Selector -->
 					<td class="childnode">
 						<div class="selector">
 							<h3><b>Select & Map</b></h3>
 							<?php foreach($tagsArr[$childnode->tag] as $targettag=>$count): ?>
+								<?php $targettagfixed = str_replace(' ', '-', $targettag); ?>
 									<hr>	
 									<label class="checkbox-lg">
 										<input class="input-form" type="checkbox" name="childnode[]" value="<?php echo $targettag; ?>">
 										<span>Include <em><?php echo $targettag; ?> (<?php echo $count; ?>)</em></span>
 									</label>
 									<label class="checkbox-lg">
-										<input class="input-form" type="checkbox" name="required[]" value="1">
+										<input class="input-form" type="checkbox" name="required[<?php echo $targettagfixed; ?>]" value="1">
 										<span>Required for parsing</span>
 									</label>
 									<div class="input-field">
 										<label class="label-select">Property</label>
-										<select class="input-form" name="nodepropertyselector[]" style="width:150px">
+										<select class="input-form" name="nodepropertyselector[<?php echo $targettagfixed; ?>]" style="width:150px">
 											<option value="">select</option>
 											<?php foreach($node_properties as $property_slug): ?>
 												<option value="<?php echo $property_slug; ?>"><?php echo $property_slug ?></option>
@@ -114,21 +115,21 @@
 										</select>
 									</div>
 									<div class="input-field">
-										<input type="checkbox" name="condition[notempty][]" value="1" checked="checked">
-										<label>copy if not empty</label> 
+										<input type="checkbox" name="condition[notempty][<?php echo $targettagfixed; ?>]" value="1">
+										<label>ONLY if not empty</label> 
 									</div>
 									<div class="input-field">
 										<label>keywords</label>
-										<input type="text" name="condition[keywordyesvalue][]" value="">
+										<input type="text" name="condition[keywordyesvalue][<?php echo $targettagfixed; ?>]" value="">
 									</div>
 									<div class="input-field">
 										<label>no keywords</label> 
-										<input type="text" name="condition[keywordnovalue][]" value="">
+										<input type="text" name="condition[keywordnovalue][<?php echo $targettagfixed; ?>]" value="">
 									</div>
 									<div class="input-field">
 										<label class="label-select">Map to:</label>
-										<select class="input-form" name="contentblockselector[]" style="width:150px">
-											<option>Select block</option>
+										<select class="input-form" name="contentblockselector[<?php echo $targettagfixed; ?>]" style="width:150px">
+											<option value="">Select block</option>
 											<?php foreach($content_blocks as $block_slug=>$block_name): ?>
 												<option value="<?php echo $block_slug; ?>"><?php echo $block_name ?></option>
 											<?php endforeach; ?>

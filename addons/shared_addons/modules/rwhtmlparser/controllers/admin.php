@@ -76,8 +76,21 @@ class Admin extends Admin_Controller
 
     public function createparsertemplate()
     {
-var_dump($this->input->post());
+        if($this->input->post() 
+            && is_array($this->input->post('childnode')) 
+            && count($this->input->post('childnode'))>0 )
+        {
+            $this->createparsertemplate_process();
 
+        }
+        else
+            {
+                $this->session->set_flashdata('error', lang('rwhtmlparser:createparsermap_empty'));
+                redirect('admin/rwhtmlparser/create');
+            }
+
+
+var_dump($this->input->post());
     }
  
     ///////////////////////////////////////
@@ -184,9 +197,6 @@ var_dump($this->input->post());
             }
             $this->parserIndexed->count = $count;
         }
-// var_dump($count);        
-// var_dump($this->parserIndexed);
-// die;
     }
 
 
@@ -230,6 +240,43 @@ var_dump($this->input->post());
     }
 
 
+    ////////////////////////////
+    // Process Parser Mapping //
+    ////////////////////////////
+
+    private function createparsertemplate_process()
+    {
+        # init
+        $parsermap = array(
+                        'type'=>'',
+                        'uri'=>'',
+                        'node'=>'',
+                        'map'=>array(),
+                        );
+        # post input data
+        $p_childnodes = $this->input->post('childnode');  
+        $p_required = $this->input->post('required');
+        $p_nodepropertyselector = $this->input->post('nodepropertyselector');
+        $p_condition = $this->input->post('condition');
+        $p_contentblockselector = $this->input->post('contentblockselector');
+        # iterate      
+        foreach($p_childnodes as $childnode)
+        {
+            $map = array(
+                        'childnode'=>$childnode,
+                        'required'=>isset($p_required[$childnode]) ? $p_required[$childnode] : 0,
+                        'nodepropertyselector'=>$p_nodepropertyselector[$childnode],
+                        'condition_notempty'=>$p_condition['notempty'][$childnode],
+                        'condition_keywordyesvalue'=>$p_condition['keywordyesvalue'][$childnode],
+                        'condition_keywordnovalue'=>$p_condition['keywordnovalue'][$childnode],
+                        'contentblockselector'=>$p_contentblockselector[$childnode],    
+                        );
+            $parsermap['map'][$childnode] = $map;    
+        }
+var_dump($parsermap);
+
+    }
+
 
     //////////////////////////////
     // DEBUG --------------- // //
@@ -241,48 +288,6 @@ var_dump($this->input->post());
         ini_set('xdebug.var_display_max_children', 25);
         ini_set('xdebug.var_display_max_data', 150);       
     }   
-
-
-
-        // $this->shd->set_target('http://www.smashingmagazine.com/2014/08/27/customizing-wordpress-archives-categories-terms-taxonomies/');
-        
-        
-        // // html object
-        // //var_dump($this->shd->htmldom);
-
-        // // find
-        // $nodes = $this->shd->htmldom->find('article');
-
-        // foreach($nodes as $node)
-        // {
-        //     echo '### {'.$node->tag.'}<br>';
-        //     foreach($node->children as $child)
-        //     {
-        //         echo '###### {'.$child->tag.'} <br>';
-        //         var_dump($child->tag);
-        //         var_dump($child->attr);
-        //         var_dump($child->plaintext);
-        //         var_dump($child->innertext);
-        //         var_dump($child->outertext);
-        //         if(count($child->children)>0)
-        //         {
-        //             foreach($child->children as $child1)
-        //             {
-        //                 echo '######### {'.$child1->tag.'}<br>';
-        //                 var_dump($child1->plaintext);                        
-        //                 var_dump($child1->tag);
-        //                 var_dump($child1->attr);
-        //                 echo '######### end <br>';
-        //             }
-        //         }
-        //         echo '###### end {'.$child1->tag.'}<br>';
-        //     }
-        //     echo '### NODE <br>';
-        // }
-
-        // //var_dump($nodes);
-
-        // die;
 
     
 }
