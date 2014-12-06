@@ -9,7 +9,6 @@
  */
 class Admin extends Admin_Controller
 {
-
     protected $section = "items";
     private $CFG;    
     private $parser;
@@ -88,9 +87,6 @@ class Admin extends Admin_Controller
                 $this->session->set_flashdata('error', lang('rwhtmlparser:createparsermap_empty'));
                 redirect('admin/rwhtmlparser/create');
             }
-
-
-var_dump($this->input->post());
     }
  
     ///////////////////////////////////////
@@ -246,12 +242,14 @@ var_dump($this->input->post());
 
     private function createparsertemplate_process()
     {
+
+var_dump($this->input->post());      
         # init
         $parsermap = array(
-                        'type'=>'',
-                        'uri'=>'',
-                        'node'=>'',
-                        'map'=>array(),
+                        'type'=>$this->input->post('sourcetype'),
+                        'uri'=>$this->input->post('uri'),
+                        'node'=>$this->input->post('node'),
+                        'maprules'=>array(),
                         );
         # post input data
         $p_childnodes = $this->input->post('childnode');  
@@ -259,22 +257,27 @@ var_dump($this->input->post());
         $p_nodepropertyselector = $this->input->post('nodepropertyselector');
         $p_condition = $this->input->post('condition');
         $p_contentblockselector = $this->input->post('contentblockselector');
-        # iterate      
-        foreach($p_childnodes as $childnode)
+        # iterate
+        $nodeindex = 0;      
+        foreach($p_childnodes as $childnodeArr)
         {
-            $map = array(
-                        'childnode'=>$childnode,
-                        'required'=>isset($p_required[$childnode]) ? $p_required[$childnode] : 0,
-                        'nodepropertyselector'=>$p_nodepropertyselector[$childnode],
-                        'condition_notempty'=>$p_condition['notempty'][$childnode],
-                        'condition_keywordyesvalue'=>$p_condition['keywordyesvalue'][$childnode],
-                        'condition_keywordnovalue'=>$p_condition['keywordnovalue'][$childnode],
-                        'contentblockselector'=>$p_contentblockselector[$childnode],    
-                        );
-            $parsermap['map'][$childnode] = $map;    
+            foreach($childnodeArr as $childnode)
+            {
+                $childnode_signed = str_replace(' ', '-', $childnode);
+                $map = array(
+                            'childnode'=>$childnode,
+                            'required'=>isset($p_required[$nodeindex][$childnode_signed]) ? $p_required[$nodeindex][$childnode_signed] : 0,
+                            'nodepropertyselector'=>$p_nodepropertyselector[$nodeindex][$childnode_signed],
+                            'condition_notempty'=>$p_condition['notempty'][$nodeindex][$childnode_signed],
+                            'condition_keywordyesvalue'=>$p_condition['keywordyesvalue'][$nodeindex][$childnode_signed],
+                            'condition_keywordnovalue'=>$p_condition['keywordnovalue'][$nodeindex][$childnode_signed],
+                            'contentblockselector'=>$p_contentblockselector[$nodeindex][$childnode_signed],    
+                            );
+                $parsermap['maprules'][$childnode][$nodeindex] = $map;
+            }
+            $nodeindex++;
         }
 var_dump($parsermap);
-
     }
 
 

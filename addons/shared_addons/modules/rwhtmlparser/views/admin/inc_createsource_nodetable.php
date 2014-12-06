@@ -1,4 +1,3 @@
-<?php echo form_open('admin/rwhtmlparser/createparsertemplate'); ?>			
 	<?php foreach($nodes as $node): ?>		
 	<table class="createsourceform">
 		<tr class="nodetitle">
@@ -98,16 +97,16 @@
 								<?php $targettagfixed = str_replace(' ', '-', $targettag); ?>
 									<hr>	
 									<label class="checkbox-lg">
-										<input class="input-form" type="checkbox" name="childnode[]" value="<?php echo $targettag; ?>">
+										<input class="input-form" type="checkbox" name="childnode[<?php echo $node->order; ?>][]" value="<?php echo $targettag; ?>">
 										<span>Include <em><?php echo $targettag; ?> (<?php echo $count; ?>)</em></span>
 									</label>
 									<label class="checkbox-lg">
-										<input class="input-form" type="checkbox" name="required[<?php echo $targettagfixed; ?>]" value="1">
+										<input class="input-form" type="checkbox" name="required[<?php echo $node->order; ?>][<?php echo $targettagfixed; ?>]" value="1">
 										<span>Required for parsing</span>
 									</label>
 									<div class="input-field">
 										<label class="label-select">Property</label>
-										<select class="input-form" name="nodepropertyselector[<?php echo $targettagfixed; ?>]" style="width:150px">
+										<select class="input-form" name="nodepropertyselector[<?php echo $node->order; ?>][<?php echo $targettagfixed; ?>]" style="width:150px">
 											<option value="">select</option>
 											<?php foreach($node_properties as $property_slug): ?>
 												<option value="<?php echo $property_slug; ?>"><?php echo $property_slug ?></option>
@@ -115,26 +114,26 @@
 										</select>
 									</div>
 									<div class="input-field">
-										<input type="checkbox" name="condition[notempty][<?php echo $targettagfixed; ?>]" value="1">
+										<input type="checkbox" name="condition[notempty][<?php echo $node->order; ?>][<?php echo $targettagfixed; ?>]" value="1">
 										<label>ONLY if not empty</label> 
 									</div>
 									<div class="input-field">
 										<label>keywords</label>
-										<input type="text" name="condition[keywordyesvalue][<?php echo $targettagfixed; ?>]" value="">
+										<input type="text" name="condition[keywordyesvalue][<?php echo $node->order; ?>][<?php echo $targettagfixed; ?>]" value="">
 									</div>
 									<div class="input-field">
 										<label>no keywords</label> 
-										<input type="text" name="condition[keywordnovalue][<?php echo $targettagfixed; ?>]" value="">
+										<input type="text" name="condition[keywordnovalue][<?php echo $node->order; ?>][<?php echo $targettagfixed; ?>]" value="">
 									</div>
 									<div class="input-field">
 										<label class="label-select">Map to:</label>
-										<select class="input-form" name="contentblockselector[<?php echo $targettagfixed; ?>]" style="width:150px">
+										<select class="input-form" name="contentblockselector[<?php echo $node->order; ?>][<?php echo $targettagfixed; ?>]" style="width:150px">
 											<option value="">Select block</option>
 											<?php foreach($content_blocks as $block_slug=>$block_name): ?>
 												<option value="<?php echo $block_slug; ?>"><?php echo $block_name ?></option>
 											<?php endforeach; ?>
 										</select>
-									</div>
+									</div>		
 							<?php endforeach; ?>
 						</div>					
 					</td>
@@ -150,4 +149,3 @@
 		</table>				
 	<?php endforeach; ?>
 	<input class="btn blue large" type="submit" value="Generate Parse Map template">
-<?php echo form_close(); ?>	
