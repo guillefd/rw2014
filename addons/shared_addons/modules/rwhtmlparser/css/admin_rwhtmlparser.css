@@ -24,6 +24,10 @@ h2 small{
 	font-size:16px !important; 
 }
 
+table.indexitems th{
+	text-align: left !important;
+}
+
 table td{
 	word-wrap: break-word;	
 }

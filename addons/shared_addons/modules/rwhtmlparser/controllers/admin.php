@@ -34,7 +34,7 @@ class Admin extends Admin_Controller
     
     public function index()
     {
-        $items = array();
+        $items = $this->rwhtmlparser_m->get_template_maps();
         //construye template
         $this->template
                 ->title($this->module_details['name'], lang('rwhtmlparser:items'))
@@ -106,6 +106,34 @@ class Admin extends Admin_Controller
                 redirect('admin/rwhtmlparser/create');
             }
     }
+
+    public function viewtemplate($id = false)
+    {
+        if($id==false)
+        {
+            $this->session->set_flashdata('error', 'Invalid request, the ID is not defined');
+            redirect('admin/rwhtmlparser');
+        }
+        # get item
+        $item = $this->rwhtmlparser_m->get_template_map($id);
+        if($item==false || $item==null)
+        {
+            $this->session->set_flashdata('error', 'An error ocurred trying to retrieve the template');
+            redirect('admin/rwhtmlparser');
+        }
+        # all good
+        $this->template
+                ->title($this->module_details['name'], 'Template Map')
+                ->set('map', $item->map)
+                ->set('rules', $item->rules)                      
+                ->build('admin/viewtemplate');       
+    }
+
+    public function create_template_feeds()
+    {
+
+    }
+
  
     ///////////////////////////////////////
     // PRIVATE ------------------------- //

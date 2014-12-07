@@ -8,32 +8,36 @@
 	
 	<?php if(!empty($items)): ?>
 	
-		<table>
+		<table class="indexitems">
 			<thead>
 				<tr>
-					<th><?php echo lang('rwhtmlparser:date'); ?></th> 					                                                                             
+					<th>Name</th> 					                                                                             
+					<th>Source type</th>
+					<th>Domain</th>
+					<th>Feeds</th>
 					<th></th>
 				</tr>
 			</thead>
+			<tbody>
+				<?php foreach( $items as $item ): ?>
+				<tr>
+					<td><a href="<?php echo base_url().'admin/rwhtmlparser/viewtemplate/'.$item->id; ?>"><?php echo $item->name; ?></a></td>
+					<td><?php echo $item->type; ?></td>
+					<td><?php echo $item->domain; ?></td>
+					<td></td>                                                           
+					<td class="actions">
+						<?php echo anchor('admin/rwhtmlparser/delete/'.$item->id, 'delete', 'class="confirm btn red delete"'); ?>                                         
+					</td>
+				</tr>
+				<?php endforeach; ?>
+			</tbody>
 			<tfoot>
 				<tr>
 					<td colspan="5">
 						<div class="inner"><?php $this->load->view('admin/partials/pagination'); ?></div>
 					</td>
 				</tr>
-			</tfoot>
-			<tbody>
-				<?php foreach( $items as $item ): ?>
-				<tr>
-					<td><?php echo date("d-m-Y",$item->date); ?></td>                                                           
-					<td class="actions">
-						<?php echo
-						anchor('admin/rwhtmlparser/edit/'.$item->id, lang('rwhtmlparser:edit'), 'class="btn orange"').' '.                                                                                                         
-						anchor('admin/rwhtmlparser/delete/'.$item->id, lang('rwhtmlparser:delete'), 'class="confirm btn red delete"'); ?>                                         
-					</td>
-				</tr>
-				<?php endforeach; ?>
-			</tbody>
+			</tfoot>			
 		</table>
 		
 	<?php else: ?>
