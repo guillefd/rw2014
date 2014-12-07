@@ -14,14 +14,14 @@
 				<?php echo $node->tag; ?>
 				<?php if(count($node->attr)>0): ?>
 					<?php foreach($node->attr as $attr=>$value): ?>
-						<p><?php echo '['.$attr.']'; ?> <?php echo '{'.$value.'}'; ?></p>
+						<p><?php echo '['.$attr.']'; ?> <?php echo '{'.substring($value, 20).'}'; ?></p>
 					<?php endforeach; ?>
 				<?php else: ?>
 					<p>{ no attr }</p>	
 				<?php endif; ?>
 			</td>
 			<td>
-				<?php echo htmlspecialchars(substring($node->outertext)); ?>
+				<?php echo wordwrap(htmlspecialchars(substring($node->outertext)), 50, '<br>', true); ?>
 			</td>
 		</tr>	
 				<tr>

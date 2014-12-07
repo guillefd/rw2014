@@ -358,7 +358,8 @@ class Admin extends Admin_Controller
                          'node'=>$map['node'],
                          'created_on'=>now(),
                          );
-            $id = $this->rwhtmlparser_m->insert_template_map($data);
+            $this->rwhtmlparser_m->insert_template_map($data);
+            $id = $this->db->insert_id();
             #insert rules
             if($id)
             {
