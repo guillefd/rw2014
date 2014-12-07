@@ -79,8 +79,26 @@ class Admin extends Admin_Controller
             && is_array($this->input->post('childnode')) 
             && count($this->input->post('childnode'))>0 )
         {
-            $this->createparsertemplate_process();
-
+            $result = $this->createparsertemplate_process();
+            if($result->error===false)
+            {
+                $dbinsert = $this->createparsertemplate_insert($result->data);
+                if($dbinsert->error===false)
+                {
+                    $this->session->set_flashdata('success', $dbinsert->msg);
+                    redirect('admin/rwhtmlparser');
+                }
+                else
+                    {
+                        $this->session->set_flashdata('error', $dbinsert->msg);
+                        redirect('admin/rwhtmlparser/create');
+                    }
+            }
+            else
+                {
+                    $this->session->set_flashdata('error', $result->msg);
+                    redirect('admin/rwhtmlparser/create');
+                }
         }
         else
             {
@@ -241,13 +259,17 @@ class Admin extends Admin_Controller
     ////////////////////////////
 
     private function createparsertemplate_process()
-    {
-
-var_dump($this->input->post());      
+    {    
         # init
+        $result = new stdClass();
+        $result->error = null;
+        $result->msg = '';
+        $result->data = null;
         $parsermap = array(
+                        'mapname'=>$this->input->post('mapname'),
                         'type'=>$this->input->post('sourcetype'),
-                        'uri'=>$this->input->post('uri'),
+                        'uri'=>get_domain_from_uri__h($this->input->post('uri')),
+                        'uri_parsed'=>$this->input->post('uri'),
                         'node'=>$this->input->post('node'),
                         'maprules'=>array(),
                         );
@@ -276,8 +298,74 @@ var_dump($this->input->post());
                 $parsermap['maprules'][$childnode][$nodeindex] = $map;
             }
             $nodeindex++;
+        }      
+        if(count($parsermap['maprules'])>0)
+        {
+            $result->error = false;
+            $result->data = $parsermap;            
         }
-var_dump($parsermap);
+        else
+            {
+                $result->error = true;
+                $result->msg = lang('rwhtmlparser:createparsermaprules_empty');
+            }
+        return $result;
+    }
+
+    private function createparsertemplate_insert($map = array())
+    {      
+        # init
+        $result = new stdClass();
+        $result->error = null;
+        $result->msg = '';
+        $result->data = null;
+        # insert transaction
+        $this->db->trans_start();
+            #insert map
+            $data = array(
+                         'name'=>$map['mapname'],
+                         'type'=>$map['type'],
+                         'domain'=>$map['uri'],
+                         'uri_parsed'=>$map['uri_parsed'],
+                         'node'=>$map['node'],
+                         'created_on'=>now(),
+                         );
+            $id = $this->rwhtmlparser_m->insert_template_map($data);
+            #insert rules
+            if($id)
+            {
+                $data_batch = array();
+                foreach($map['maprules'] as $rulesArr)
+                {
+                    foreach($rulesArr as $rule)
+                    {
+                        $data = array(
+                                     'map_id'=>$id,
+                                     'childnode'=>$rule['childnode'],
+                                     'required'=>$rule['required'],
+                                     'nodepropertyselector'=>$rule['nodepropertyselector'],
+                                     'condition_keywordyesvalue'=>$rule['condition_keywordyesvalue'],
+                                     'condition_keywordnovalue'=>$rule['condition_keywordnovalue'],
+                                     'contentblockselector'=>$rule['contentblockselector'],
+                                     'created_on'=>now(),
+                                    );
+                        $data_batch[] = $data;
+                    }
+                }
+                $this->rwhtmlparser_m->insert_template_map_rules($data_batch);
+            }
+        $this->db->trans_complete();
+        if($this->db->trans_status()===true)
+        {
+            $result->error = false; 
+            $result->msg = 'The template map was succesfully created';
+        }
+        else
+            {
+                $result->error = true; 
+                $result->msg = 'An error occur when trying to create the template map.';
+            }
+        return $result;
     }
 
 

@@ -3,6 +3,10 @@
 	<fieldset>
 		<ul>
 			<li>
+				<label for="title"><?php echo lang('rwhtmlparser:mapname') ?> <span></span></label>
+				<div class="input"><?php echo form_input('mapname', $postvalues['mapname'], '') ?></div>
+			</li>	
+			<li>
 				<label for="title"><?php echo lang('rwhtmlparser:sourcetype') ?> <span>*</span></label>
 				<div class="input"><?php echo form_dropdown('sourcetype', array(''=>'') + $sourcetypes, $postvalues['sourcetype'], ''); ?></div>
 			</li>

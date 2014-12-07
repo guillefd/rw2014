@@ -7,6 +7,11 @@ $config['sourcetypes'] = array(
 
 $config['createsource_form_rules'] = array(
 											array(
+								                    'field'=>'mapname', 
+								                    'label'=>'lang:rwhtmlparser:mapname', 
+								                    'rules'=>'required',
+								                  ),
+											array(
 								                    'field'=>'sourcetype', 
 								                    'label'=>'lang:rwhtmlparser:sourcetype', 
 								                    'rules'=>'required',
