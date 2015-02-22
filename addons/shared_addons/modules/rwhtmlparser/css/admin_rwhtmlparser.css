@@ -89,7 +89,7 @@ table tr.childrencontent2 td{
 }
 
 textarea.input-form{
-	width:210px;
+	width:250px;
 	min-height:100px;
 }
 
@@ -120,30 +120,37 @@ label.label{
 	margin-bottom: 10px;
 }
 
-td div.childnodetag{
-	display: inline-block;
-	width: 150px;
-	vertical-align: top;
-	padding-top: 24px;		
-}
-
-td div.childnodetext{
-	display: inline-block;
-	left: 100px;
-	clear: left;
-	height: 150px;
-}
-
-td div.childnodetext div.textarea{
-	float: left;
-	padding: 5px;
-}
-
-td div.childnodetext div.textarea textarea{
+td div.childnodetag,
+td div.child2nodetag{	
 	display: block;
+	vertical-align: top;
+	padding-top: 10px;
+	margin-bottom: 5px;		
 }
 
-td div.childnodetext div.textarea small{
+td div.childnodetext,
+td div.child2nodetext{
+	display: block;
+	clear: left;
+	min-height: 25px;
+}
+
+td div.childnodetext div.textarea,
+td div.child2nodetext div.textarea{
+	float: left;
+	padding: 1%;
+	display: inline-block;
+	width: 30%;
+}
+
+td div.childnodetext div.textarea textarea,
+td div.child2nodetext div.textarea textarea{
+	display: inline-block;
+	width: 100%;
+}
+
+td div.childnodetext div.textarea small,
+td div.child2nodetext div.textarea small{
 	float: left;
 	clear: right;
 }
@@ -151,6 +158,26 @@ td div.childnodetext div.textarea small{
 td.childnode{
 	vertical-align: top;
 }
+
+td div.childnodetext div.input,
+td div.child2nodetext div.input{
+	display: block;
+}
+td div.childnodetext div.input label,
+td div.child2nodetext div.input label{
+	min-width: 75px;
+	display: inline-block;
+}
+td div.childnodetext div.input input[type=text],
+td div.child2nodetext div.input input[type=text]{
+	display: inline-block;
+	width: 75%;
+}
+td div.childnodetext div.input input[type=checkbox],
+td div.child2nodetext div.input input[type=checkbox]{
+	height: 20px !important;
+	width: 20px !important;
+	}
 
 td div.selector{
 	display: inline-block;

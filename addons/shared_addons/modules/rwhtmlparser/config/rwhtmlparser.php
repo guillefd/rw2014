@@ -41,6 +41,7 @@ $config['content_blocks'] = array(
 									'subtitlecontent'=>'Subtitle content',
 									'textcontent'=>'Text content',
 									'mediacontent'=>'Media content',	
+									'link'=>'Link',
 								  );
 
 $config['node_properties'] = array(

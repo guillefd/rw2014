@@ -1,15 +1,19 @@
+<?php
+	define('STR_NOATTR','(--no attr--)');
+
+?>
 	<?php foreach($nodes as $node): ?>		
 	<table class="createsourceform">
 		<tr class="nodetitle">
-			<td colspan="2">NODE [ <?php echo $node->tag; ?> ] [ <?php echo $node->order; ?> ]</td>
+			<td colspan="2"><?php echo $node->tagstring; ?></td>
 		</tr>
 		<tr class="nodetitle">
 			<th width="10%">tag
 			<th>plainText / innerText</th>					
 		</tr>
-		<tr class="nodecontent">
 <!-- ############# -->
 <!-- ### MAIN Node -->
+		<tr class="nodecontent">
 			<td>
 				<?php echo $node->tag; ?>
 				<?php if(count($node->attr)>0): ?>
@@ -17,16 +21,16 @@
 						<p><?php echo '['.$attr.']'; ?> <?php echo '{'.substring($value, 20).'}'; ?></p>
 					<?php endforeach; ?>
 				<?php else: ?>
-					<p>{ no attr }</p>	
+					<p><?php echo STR_NOATTR; ?></p>	
 				<?php endif; ?>
 			</td>
 			<td>
 				<?php echo wordwrap(htmlspecialchars(substring($node->outertext)), 50, '<br>', true); ?>
 			</td>
 		</tr>	
-				<tr>
-					<td colspan="2"></td>
-				</tr>	
+		<tr>
+			<td colspan="2"></td>
+		</tr>	
 <!-- ###### end MAIN Node -->
 <!-- #################### -->
 
@@ -34,45 +38,30 @@
 <!-- ############### -->
 <!-- ### Nodes SUB 1 -->								
 		<?php foreach($node->childnodes as $childtag=>$childnodeArr): ?>
+				<?php
+					# PRINT VALUES
+					$node_tag_string = $node->tagstring.' > Child Node [ '.$childtag.' ( '.count($childnodeArr).' ) ]';			
+				?>
 				<tr class="childrentitle2">
-					<td colspan="2"> NODE [ <?php echo $node->tag; ?>] [ <?php echo $node->order; ?> ]
-									 > Child Node [ <?php echo $childtag; ?>  (<?php echo count($childnodeArr); ?>) ]</td>
+					<td colspan="2"><?php echo $node_tag_string; ?></td>
 				</tr>
 				<tr class="childrentitle2">
 					<th width="15%">tag <em>[attribute] {value}</em> plaintext / outertext / innertext</th>
 					<th>Include and Map</th>			
 				</tr>
 				<tr class="childrencontent2">
-					<!-- childnode -->
 					<td width="75%">
+						<!-- childnode -->
 						<?php foreach($childnodeArr as $childnode): ?>
-							<!-- tag > attr -->
+							<!-- TAG -->
 							<div class="childnodetag">
-								<b><?php echo $childnode->tag; ?></b>
-								<?php if(count($childnode->attr)>0): ?>
-									<ul>	
-									<?php foreach($childnode->attr as $attr=>$value): ?>	
-										<li>[<?php echo htmlspecialchars($attr); ?>]<br></<span>{<?php echo htmlspecialchars($value); ?>}</span></li>
-									<?php endforeach; ?>
-									</ul>
-								<?php else: ?>
-									<em><br>{ no attributes }</em>
-								<?php endif; ?>
-								<?php if(isset($childnode->child2nodes)): ?>
-									<br><p><em>Childnodes</em>:<br>
-									<?php foreach($tagsArr[$childnode->tag] as $targettag=>$count): ?>
-										<?php if($targettag!=$childnode->tag): ?>
-											<b><?php echo $targettag; ?></b><br>
-										<?php endif; ?>	
-									<?php endforeach; ?>
-									</p>
-								<?php endif; ?>
+								<b>Childnode: </b><?php echo $node->tag; ?> <?php echo $childnode->tag; ?>
 							</div>
 							<div class="childnodetext">
 								<!-- plaintext -->
 								<div class="textarea">
 									<small><em>Node property</em>: plaintext</small><br>
-									<textarea class="input-form" name=""><?php echo trim($childnode->plaintext); ?></textarea>
+									<textarea class="input-form" name=""><?php echo trim($childnode->plaintext); ?></textarea>								
 								</div>
 								<!-- outertext -->
 								<div class="textarea">
@@ -85,11 +74,73 @@
 									<textarea class="input-form" name=""><?php echo htmlspecialchars($childnode->innertext); ?></textarea>
 								</div>
 							</div>
-							<br>
+							<!-- attribute -->
+							<?php if(count($childnode->attr)>0): ?>
+								<div class="childnodetag">
+									<b>Attributes for:</b> <?php echo $node->tag; ?> <?php echo $childnode->tag; ?>
+								</div>
+								<div class="childnodetext">
+									<?php foreach($childnode->attr as $attr=>$value): ?>
+									<div class="input">
+										<label><?php echo $attr; ?></label>
+										<input type="text" class="input-form" name="" value="<?php echo htmlspecialchars($value); ?>">	
+										<input type="checkbox" name="" value="1">							
+									</div>	
+									<?php endforeach; ?>
+								</div>
+							<?php endif; ?>
+							<!-- end attribute -->
+						<!-- end childnode -->	
+						<!-- child2node -->
+							<?php if(isset($childnode->child2nodes)): ?>						
+								<?php foreach($childnode->child2nodes as $child2tag=>$child2nodesArr): ?>
+									<?php foreach($child2nodesArr as $child2node): ?>
+										<!-- TAG -->
+										<div class="child2nodetag">
+											<b>Child2node: </b><?php echo $node->tag; ?> <?php echo $child2node->tag; ?>
+										</div>							
+										<div class="child2nodetext">
+											<!-- plaintext -->
+											<div class="textarea">
+												<small><em>Node property</em>: plaintext</small><br>
+												<textarea class="input-form" name=""><?php echo trim($child2node->plaintext); ?></textarea>								
+											</div>
+											<!-- outertext -->
+											<div class="textarea">
+												<small><em>Node property</em>: outertext</small><br>
+												<textarea class="input-form" name=""><?php echo htmlspecialchars($child2node->outertext); ?></textarea>
+											</div>	
+											<!-- innertext -->
+											<div class="textarea">
+												<small><em>Node property</em>: innertext</small><br> 
+												<textarea class="input-form" name=""><?php echo htmlspecialchars($child2node->innertext); ?></textarea>
+											</div>
+										</div>
+										<!-- attribute -->
+										<?php if(count($child2node->attr)>0): ?>
+											<div class="childnodetag">
+												<b>Attributes for:</b> <?php echo $node->tag; ?> <?php echo $child2node->tag; ?>
+											</div>
+											<div class="childnodetext">
+												<?php foreach($child2node->attr as $attr=>$value): ?>
+												<div class="input">
+													<label><?php echo $attr; ?></label>
+													<input type="text" class="input-form" name="" value="<?php echo htmlspecialchars($value); ?>">	
+													<input type="checkbox" name="" value="1">							
+												</div>	
+												<?php endforeach; ?>
+											</div>
+										<?php endif; ?>
+										<!-- end attribute -->										
+									<?php endforeach; ?>
+								<?php endforeach; ?>
+							<?php endif; ?>
+						<!-- end child2node -->													
 						<?php endforeach; ?>	
 					</td>
 					<!-- end childnode --> 
-					<!-- Selector -->
+
+					<!-- ### SELECTOR ### -->
 					<td class="childnode">
 						<div class="selector">
 							<h3><b>Select & Map</b></h3>

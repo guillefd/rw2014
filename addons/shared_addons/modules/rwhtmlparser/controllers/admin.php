@@ -136,7 +136,7 @@ class Admin extends Admin_Controller
 
  
     ///////////////////////////////////////
-    // PRIVATE ------------------------- //
+    // PARSER METHODS  ----------------- //
     ///////////////////////////////////////
 
     private function init_parser()
@@ -197,7 +197,8 @@ class Admin extends Admin_Controller
                 $newnode->innertext = trim($node->innertext);
                 $newnode->outertext = trim($node->outertext);
                 $newnode->attr = $node->attr;
-                $childorder = 0; 
+                $newnode->tagstring = 'NODE ['.$newnode->tag.'] [ '.$newnode->order.' ]';
+                $childorder = 0;                 
                 foreach($node->children as $child)
                 {                 
                     $newchild = new stdClass();
@@ -206,8 +207,9 @@ class Admin extends Admin_Controller
                     $newchild->innertext = trim($child->innertext);
                     $newchild->outertext = trim($child->outertext);
                     $newchild->attr = $child->attr;  
-                    $newchild->order = $childorder;                 
-                    $child2order = 0; 
+                    $newchild->order = $childorder;
+                    $newchild->tagstring = $newnode->tagstring.' > Child Node ['.$child->tag.'] [ '.$newchild->order.' ]';
+                    $child2order = 0;                                    
                     // save tag
                     $this->parserIndexed->tags[$child->tag][$child->tag] = isset($this->parserIndexed->tags[$child->tag][$child->tag])
                                                                                    ? $this->parserIndexed->tags[$child->tag][$child->tag] + 1
@@ -227,9 +229,9 @@ class Admin extends Admin_Controller
                                                                                    ? $this->parserIndexed->tags[$child->tag][$newchild2->tag] + 1
                                                                                    : 1;                                                                        
                         $child2order++; 
-                    }
+                    }                  
                     // save node
-                    $newnode->childnodes[$child->tag][$childorder] = $newchild;                    
+                    $newnode->childnodes[$child->tag][$childorder] = $newchild;                                       
                     $childorder++;
                     $count+= $child2order;
                 }
@@ -239,6 +241,8 @@ class Admin extends Admin_Controller
             }
             $this->parserIndexed->count = $count;
         }
+// var_dump($this->parserIndexed->nodes[0]);
+// die;
     }
 
 
