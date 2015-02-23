@@ -120,37 +120,37 @@ label.label{
 	margin-bottom: 10px;
 }
 
-td div.childnodetag,
-td div.child2nodetag{	
+div.childnodetag,
+div.child2nodetag{	
 	display: block;
 	vertical-align: top;
 	padding-top: 10px;
 	margin-bottom: 5px;		
 }
 
-td div.childnodetext,
-td div.child2nodetext{
+div.childnodetext,
+div.child2nodetext{
 	display: block;
 	clear: left;
 	min-height: 25px;
 }
 
-td div.childnodetext div.textarea,
-td div.child2nodetext div.textarea{
+div.childnodetext div.textarea,
+div.child2nodetext div.textarea{
 	float: left;
 	padding: 1%;
 	display: inline-block;
 	width: 30%;
 }
 
-td div.childnodetext div.textarea textarea,
-td div.child2nodetext div.textarea textarea{
+div.childnodetext div.textarea textarea,
+div.child2nodetext div.textarea textarea{
 	display: inline-block;
 	width: 100%;
 }
 
-td div.childnodetext div.textarea small,
-td div.child2nodetext div.textarea small{
+div.childnodetext div.textarea small,
+div.child2nodetext div.textarea small{
 	float: left;
 	clear: right;
 }
@@ -159,27 +159,27 @@ td.childnode{
 	vertical-align: top;
 }
 
-td div.childnodetext div.input,
-td div.child2nodetext div.input{
+div.childnodetext div.input,
+div.child2nodetext div.input{
 	display: block;
 }
-td div.childnodetext div.input label,
-td div.child2nodetext div.input label{
+div.childnodetext div.input label,
+div.child2nodetext div.input label{
 	min-width: 75px;
 	display: inline-block;
 }
-td div.childnodetext div.input input[type=text],
-td div.child2nodetext div.input input[type=text]{
+div.childnodetext div.input input[type=text],
+div.child2nodetext div.input input[type=text]{
 	display: inline-block;
 	width: 75%;
 }
-td div.childnodetext div.input input[type=checkbox],
-td div.child2nodetext div.input input[type=checkbox]{
+div.childnodetext div.input input[type=checkbox],
+div.child2nodetext div.input input[type=checkbox]{
 	height: 20px !important;
 	width: 20px !important;
 	}
 
-td div.selector{
+div.selector{
 	display: inline-block;
 	float: left;
 	padding: 20px 15px;
@@ -188,27 +188,27 @@ td div.selector{
 	width: 280px;
 }
 
-td div.selector label.label-select{
+div.selector label.label-select{
 	display: inline-block;
 	vertical-align: top;
 	margin-top: 13px;
 }
 
-td div.selector h4{
+div.selector h4{
 	font-size: 18px;
 	margin:5px 0 10px 0;
 }
 
-td div.selector h3{
+div.selector h3{
 	font-size: 22px;
 	margin:0px;
 }
 
-td div.selector h4 small{
+div.selector h4 small{
 	color:#777;
 }
 
-td div.selector hr{
+div.selector hr{
 	margin: 5px 0 10px 0;
 	border: 1px solid #999;	
 }

@@ -1,10 +1,14 @@
+<?php
+	define('STR_NOATTR','(--no attr--)');
+
+?>
 <section class="title">
 	<h4><?php echo lang('rwhtmlparser:createsource'); ?></h4>
 </section>
 
 <section class="item">
 	<div class="content">
-		<?php echo $this->load->view('admin/inc_createsource_target.php'); ?>
+		<?php echo $this->load->view('admin/source/inc_target.php'); ?>
 	</div>
 	<div class="content">
 		<?php if(isset($nodes)): ?>
@@ -27,7 +31,8 @@
 				<br>Total <em><?php echo $postvalues['htmlelement']; ?></em> children nodes: <b><?php echo $count; ?></b>		
 				<hr>
 				<div class="margin-bottom-10"></div>			
-				<?php echo $this->load->view('admin/inc_createsource_nodetable'); ?>
+				<?php echo $this->load->view('admin/source/inc_nodetable'); ?>
+				<input class="btn blue large" type="submit" value="Generate Parse Map template">
 			<?php echo form_close(); ?>	
 		<?php else: ?>
 			<h4><?php echo lang('rwhtmlparser:parser_result_empty'); ?></h4>

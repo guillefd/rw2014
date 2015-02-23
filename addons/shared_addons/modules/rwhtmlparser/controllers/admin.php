@@ -68,7 +68,7 @@ class Admin extends Admin_Controller
                              'content_blocks'=>$this->CFG['content_blocks'],
                              'postvalues'=>$this->postvalues,
                              ))                      
-                ->build('admin/createsource');  
+                ->build('admin/source/create');  
         # clean dom        
         $this->clean_parser();                        
     }
@@ -184,57 +184,53 @@ class Admin extends Admin_Controller
         $this->parserIndexed = new stdClass();
         $this->parserIndexed->nodes = array();
         $this->parserIndexed->count = 0;
-        $this->parserIndexed->tags = array();
         if(isset($this->parser->result))
         {
             foreach($this->parser->result['nodes'] as $node)
             {
-                $newnode = new stdClass();
-                $newnode->order = $nodeorder;
-                $newnode->tag = $node->tag;
-                $newnode->tags = array();
-                $newnode->plaintext = trim($node->plaintext);
-                $newnode->innertext = trim($node->innertext);
-                $newnode->outertext = trim($node->outertext);
-                $newnode->attr = $node->attr;
+                # new child
+                $newnode = $this->get_newchildnode($node, $nodeorder, '');
                 $newnode->tagstring = 'NODE ['.$newnode->tag.'] [ '.$newnode->order.' ]';
                 $childorder = 0;                 
                 foreach($node->children as $child)
-                {                 
-                    $newchild = new stdClass();
-                    $newchild->tag = $child->tag;
-                    $newchild->plaintext = trim($child->plaintext);
-                    $newchild->innertext = trim($child->innertext);
-                    $newchild->outertext = trim($child->outertext);
-                    $newchild->attr = $child->attr;  
-                    $newchild->order = $childorder;
-                    $newchild->tagstring = $newnode->tagstring.' > Child Node ['.$child->tag.'] [ '.$newchild->order.' ]';
+                {         
+                    # new child
+                    $newchild = $this->get_newchildnode($child, $childorder, $newnode->fulltag);
+                    $newchild->tagstring = $newnode->tagstring.' > Child Node ['.$child->tag.'] [ '.$newchild->order.' ]'; 
                     $child2order = 0;                                    
-                    // save tag
-                    $this->parserIndexed->tags[$child->tag][$child->tag] = isset($this->parserIndexed->tags[$child->tag][$child->tag])
-                                                                                   ? $this->parserIndexed->tags[$child->tag][$child->tag] + 1
-                                                                                   : 1; 
+                    # save tag
+                    $this->set_parseindexed_tag($child->tag, $child->tag);
                     foreach($child->children as $child2)
                     {
-                        $newchild2 = new stdClass();
-                        $newchild2->tag = $child->tag.' '.$child2->tag;
-                        $newchild2->plaintext = trim($child2->plaintext);
-                        $newchild2->innertext = trim($child2->innertext);
-                        $newchild2->outertext = trim($child2->outertext);
-                        $newchild2->attr = $child2->attr;  
-                        $newchild2->order = $child2order;
+                        # new child2
+                        $newchild2 = $this->get_newchildnode($child2, $child2order, $newchild->fulltag);                        
+                        $newchild2->tagstring = $newchild->tagstring.' > Child2 Node ['.$child2->tag.'] [ '.$newchild2->order.' ]';
+                        $child3order = 0; 
+                        # save tags                   
+                        $this->set_parseindexed_tag($child->tag, $newchild2->tag); 
+                        foreach($child2->children as $child3)
+                        {
+                            # new child3
+                            $newchild3 = $this->get_newchildnode($child3, $child3order, $newchild2->fulltag);   
+                            $newchild3->tagstring = $newchild2->tagstring.' > Child3 Node ['.$child3->tag.'] [ '.$newchild3->order.' ]';
+                            # save tags                   
+                            $this->set_parseindexed_tag($child->tag, $newchild3->tag);
+                            # save child3node   
+                            $newchild2->child3nodes[$newchild3->tag][$child3order] = $newchild3; 
+                            $child3order++;
+
+                        }                                                                   
+                        # save child2node   
                         $newchild->child2nodes[$newchild2->tag][$child2order] = $newchild2; 
-                        // save tags                   
-                        $this->parserIndexed->tags[$child->tag][$newchild2->tag] = isset($this->parserIndexed->tags[$child->tag][$newchild2->tag])
-                                                                                   ? $this->parserIndexed->tags[$child->tag][$newchild2->tag] + 1
-                                                                                   : 1;                                                                        
                         $child2order++; 
+                        $count+= $child3order;
                     }                  
                     // save node
                     $newnode->childnodes[$child->tag][$childorder] = $newchild;                                       
                     $childorder++;
                     $count+= $child2order;
                 }
+
                 $this->parserIndexed->nodes[] = $newnode;
                 $nodeorder++;
                 $count+= $childorder;
@@ -245,6 +241,25 @@ class Admin extends Admin_Controller
 // die;
     }
 
+    private function get_newchildnode($child, $childorder, $newnodefulltag)
+    {
+        $newchild = new stdClass();
+        $newchild->tag = trim($child->tag);
+        $newchild->fulltag = trim($newnodefulltag.' '.$child->tag);
+        $newchild->plaintext = trim($child->plaintext);
+        $newchild->innertext = trim($child->innertext);
+        $newchild->outertext = trim($child->outertext);
+        $newchild->attr = $child->attr;  
+        $newchild->order = $childorder;                                
+        return $newchild;                                                                        
+    }
+
+    private function set_parseindexed_tag($childtag, $child2tag)
+    {
+        $this->parserIndexed->tags[$childtag][$child2tag] = isset($this->parserIndexed->tags[$childtag][$child2tag])
+                                                                   ? $this->parserIndexed->tags[$childtag][$child2tag] + 1
+                                                                   : 1;        
+    }
 
     private function clean_parser()
     {
@@ -408,7 +423,7 @@ class Admin extends Admin_Controller
 
     private function set_full_dump()
     {
-        ini_set('xdebug.var_display_max_depth', 9);
+        ini_set('xdebug.var_display_max_depth', 12);
         ini_set('xdebug.var_display_max_children', 25);
         ini_set('xdebug.var_display_max_data', 150);       
     }   
